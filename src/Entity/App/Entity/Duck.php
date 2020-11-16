@@ -1,12 +1,13 @@
 <?php
-namespace App\Entity;
+
+namespace App\Entity\App\Entity;
+
 use App\Repository\DuckRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * @ORM\Entity(repositoryClass=DuckRepository::class)
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class Duck implements UserInterface
 {
@@ -16,44 +17,40 @@ class Duck implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-    /**
-     * @ORM\Column(type="string", length=180)
-     */
-    private $lastName;
-    /**
-     * @ORM\Column(type="string", length=180)
-     */
-    private $firstName;
+
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $duckName;
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
+
     /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
+
     public function getId(): ?int
     {
         return $this->id;
     }
-    public function getEmail(): ?string
+
+    public function getDuckName(): ?string
     {
-        return $this->email;
+        return $this->duckName;
     }
-    public function setEmail(string $email): self
+
+    public function setDuckName(string $duckName): self
     {
-        $this->email = $email;
+        $this->duckName = $duckName;
+
         return $this;
     }
+
     /**
      * A visual identifier that represents this user.
      *
@@ -61,8 +58,9 @@ class Duck implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->duckName;
     }
+
     /**
      * @see UserInterface
      */
@@ -71,13 +69,17 @@ class Duck implements UserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
         return array_unique($roles);
     }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
         return $this;
     }
+
     /**
      * @see UserInterface
      */
@@ -85,11 +87,14 @@ class Duck implements UserInterface
     {
         return (string) $this->password;
     }
+
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
         return $this;
     }
+
     /**
      * @see UserInterface
      */
@@ -97,6 +102,7 @@ class Duck implements UserInterface
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
+
     /**
      * @see UserInterface
      */
@@ -104,47 +110,5 @@ class Duck implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-    /**
-     * @return mixed
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-    /**
-     * @param mixed $lastName
-     */
-    public function setLastName($lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-    /**
-     * @param mixed $firstName
-     */
-    public function setFirstName($firstName): void
-    {
-        $this->firstName = $firstName;
-    }
-    /**
-     * @return mixed
-     */
-    public function getDuckName()
-    {
-        return $this->duckName;
-    }
-    /**
-     * @param mixed $duckName
-     */
-    public function setDuckName($duckName): void
-    {
-        $this->duckName = $duckName;
     }
 }
