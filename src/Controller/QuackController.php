@@ -29,6 +29,8 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/new", name="quack_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -52,6 +54,8 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/{id}", name="quack_show", methods={"GET"})
+     * @param Quack $quack
+     * @return Response
      */
     public function show(Quack $quack): Response
     {
@@ -62,6 +66,8 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="quack_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function edit(Request $request, Quack $quack): Response
     {
@@ -82,10 +88,13 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/{id}", name="quack_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Quack $quack
+     * @return Response
      */
     public function delete(Request $request, Quack $quack): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$quack->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $quack->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($quack);
             $entityManager->flush();
