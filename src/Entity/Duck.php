@@ -46,6 +46,11 @@ class Duck implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Quack", mappedBy="author")
+     */
+    private $quacks;
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -176,5 +181,23 @@ class Duck implements UserInterface
     {
         $this->duckName = $duckName;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getQuacks()
+    {
+        return $this->quacks;
+    }
+
+    /**
+     * @param mixed $quacks
+     */
+    public function setQuacks($quacks): void
+    {
+        $this->quacks = $quacks;
+    }
+
+
 
 }

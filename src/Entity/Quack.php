@@ -18,6 +18,12 @@ class Quack
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Duck", inversedBy="quacks")
+     // @ORM\ManyToOne(targetEntity="App\Entity\Duck", inversedBy="quacks", fetch="EAGER")
+     */
+    private $author;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -55,4 +61,21 @@ class Quack
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author): void
+    {
+        $this->author = $author;
+    }
+
 }
