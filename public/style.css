@@ -24,7 +24,7 @@
 }
 .collapse-content .fa-feather{
     font-size: 50px;
-    color: seagreen;
+    color: #5cb85c;
     padding-left: 30px;
     padding-top: 10px;
 }
@@ -36,7 +36,7 @@
     color: darkgrey;
 }
 .collapse-content .fa-comment-dots:hover {
-    color: seagreen;
+    color: #5cb85c;
 }
 .card-top-text .card-text {
     color: darkgrey;
