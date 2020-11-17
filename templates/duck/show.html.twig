@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Duck{% endblock %}
+
+{% block body %}
+    <h1>Duck</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ duck.id }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ duck.lastName }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ duck.firstName }}</td>
+            </tr>
+            <tr>
+                <th>DuckName</th>
+                <td>{{ duck.duckName }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ duck.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ duck.roles ? duck.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ duck.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('duck_index') }}">back to list</a>
+
+    <a href="{{ path('duck_edit', {'id': duck.id}) }}">edit</a>
+
+    {{ include('duck/_delete_form.html.twig') }}
+{% endblock %}

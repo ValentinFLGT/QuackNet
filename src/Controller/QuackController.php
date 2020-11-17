@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quack;
 use App\Form\QuackType;
+use App\Repository\DuckRepository;
 use App\Repository\QuackRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,7 @@ class QuackController extends AbstractController
      * @param QuackRepository $quackRepository
      * @return Response
      */
-    public function index(QuackRepository $quackRepository): Response
+    public function index(QuackRepository $quackRepository, DuckRepository $duckRepository): Response
     {
         return $this->render('quack/index.html.twig', [
             'quacks' => $quackRepository->findAll(),

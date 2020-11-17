@@ -1,0 +1,43 @@
+.promoting-card {
+    margin-bottom: 40px;
+}
+.collapse-content .fa-heart{
+    font-size: 30px;
+    color: darkgrey !important;
+}
+.collapse-content .fa-heart:hover {
+    color: #f44336 !important;
+}
+.collapse-content .fa-share-alt {
+    font-size: 30px;
+    color: darkgrey !important;
+}
+.collapse-content .fa-share-alt:hover {
+    color: #0d47a1 !important;
+}
+.quackTitle {
+    text-align: center;
+    padding: 50px;
+}
+.card-top-text {
+    padding-top: 25px;
+}
+.collapse-content .fa-feather{
+    font-size: 50px;
+    color: seagreen;
+    padding-left: 30px;
+    padding-top: 10px;
+}
+.collapse-content .citation {
+    padding-bottom: 40px;
+}
+.collapse-content .fa-comment-dots {
+    font-size: 40px;
+    color: darkgrey;
+}
+.collapse-content .fa-comment-dots:hover {
+    color: seagreen;
+}
+.card-top-text .card-text {
+    color: darkgrey;
+}
