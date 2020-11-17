@@ -3,6 +3,7 @@
 {% block title %}Quack index{% endblock %}
 
 {% block body %}
+
     <h1>Quack index</h1>
     <h2>You are logged as {{ app.user.duckName }}</h2>
 
@@ -17,15 +18,26 @@
         </thead>
         <tbody>
         {% for quack in quacks %}
-            <tr>
-                <td>{{ quack.id }}</td>
-                <td>{{ quack.content }}</td>
-                <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('quack_show', {'id': quack.id}) }}">show</a>
-                    <a href="{{ path('quack_edit', {'id': quack.id}) }}">edit</a>
-                </td>
-            </tr>
+            <div class="card" style="width: 18rem;">
+                <img src="http://placehold.it/350x150" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quack.id }}</h5>
+                    <p class="card-text">{{ quack.content }}</p>
+                    <p class="card-text">{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+{#            <tr>#}
+{#                <td>{{ quack.id }}</td>#}
+{#                <td>{{ quack.content }}</td>#}
+{#                <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>#}
+{#                <td>#}
+{#                    <a href="{{ path('quack_show', {'id': quack.id}) }}">show</a>#}
+{#                    <a href="{{ path('quack_edit', {'id': quack.id}) }}">edit</a>#}
+{#                </td>#}
+{#            </tr>#}
+
         {% else %}
             <tr>
                 <td colspan="4">no records found</td>
