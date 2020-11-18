@@ -71,16 +71,15 @@ a:hover {
     padding-top: 25px;
 }
 .collapse-content .fa-feather{
-    font-size: 50px;
+    font-size: 32px;
     color: #5cb85c;
-    padding-left: 30px;
-    padding-top: 10px;
+    padding-top: 4px;
 }
 .collapse-content .citation {
-    padding-bottom: 40px;
+    padding-bottom: 45px;
 }
 .collapse-content .fa-comment-dots {
-    font-size: 40px;
+    font-size: 32px;
     color: darkgrey;
 }
 .collapse-content .fa-comment-dots:hover {
@@ -88,4 +87,12 @@ a:hover {
 }
 .card-top-text .card-text {
     color: darkgrey;
+}
+
+.homeContainer {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

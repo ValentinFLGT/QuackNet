@@ -5,45 +5,56 @@
 {% block body %}
 
     <h1 class="quackTitle">Quack Quack Mofo!!!</h1>
-        {% for quack in quacks %}
-            <!-- Card -->
-            <div class="card promoting-card">
-                <!-- Card content -->
-                <div class="card-body d-flex flex-row">
-                    <!-- Avatar -->
-                    <img src="https://i.kym-cdn.com/photos/images/original/001/273/620/02f.jpg" class="rounded-circle mr-3" height="100px" width="100px" alt="avatar">
-                    <!-- Content -->
-                    <div class="card-top-text">
-                        <!-- Title -->
-                        <h4 class="card-title font-weight-bold mb-2">{{ quack.author.duckName }}</h4>
-                        <!-- Subtitle -->
-                        <p class="card-text"><i class="far fa-clock pr-2"></i>{{ quack.createdAt ? quack.createdAt|date('d-m-Y H:i:s') : '' }}</p>
-                    </div>
+    {% for quack in quacks %}
+        <!-- Card -->
+        <div class="card promoting-card">
+            <!-- Card head -->
+            <div class="card-body d-flex flex-row">
+                <!-- Avatar -->
+                <img src="https://i.kym-cdn.com/photos/images/original/001/273/620/02f.jpg" class="rounded-circle mr-3"
+                     height="100px" width="100px" alt="avatar">
+                <!-- Content -->
+                <div class="card-top-text">
+                    <!-- Title -->
+                    <h4 class="card-title font-weight-bold mb-2">{{ quack.author.duckName }}</h4>
+                    <!-- Subtitle -->
+                    <p class="card-text"><i
+                                class="far fa-clock pr-2"></i>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}
+                    </p>
                 </div>
-                <!-- Card content -->
-                <div class="card-body">
-
-                    <div class="collapse-content">
-
-                        <!-- Text -->
-                        <div class="row citation">
-                            <i class="fas fa-feather col-sm-1"></i>
-                            <p class="card-text col-sm-11">{{ quack.content }}</p>
-                        </div>
-                        <!-- Button -->
-                        <a href="{{ path('quack_new') }}" class="btn btn-outline-success float-left ml-5 mr-5">Quack Back</a>
-                        <i class="far fa-comment-dots ml-5"></i>
-                        <i class="fas fa-share-alt text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Share this Quack"></i>
-                        <i class="fas fa-heart text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="I Quack it"></i>
-                    </div>
-
-                </div>
-
             </div>
-            <!-- Card -->
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
+            <!-- Card content -->
+            <div class="card-body">
+                <div class="collapse-content">
+                    <!-- Text -->
+                    <div class="row citation">
+                        <p class="col-1"></p>
+                        <p class="card-text col-sm-10">{{ quack.content }}</p>
+                        <p class="col-1"></p>
+                    </div>
+                    <!-- Buttons -->
+                    <div class="container">
+                        <div class="row">
+                            <a href="{{ path('quack_new') }}" class="btn btn-outline-success float-left col-2" style="height: 39px">Quack
+                                Back</a>
+                            <i class="fas fa-feather col-1" style="height: 35px"></i>
+                            <div class="col-3" style="height: 35px"></div>
+                            <div class="col-3" style="height: 35px"></div>
+                            <i class="far fa-comment-dots float-right p-1 my-1 col-1" style="height: 35px; text-align: right"></i>
+                            <i class="fas fa-share-alt text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
+                               data-placement="top" title="Share this Quack" style="height: 35px; text-align: right"></i>
+                            <i class="fas fa-heart text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
+                               data-placement="top" title="I Quack it" style="height: 35px; text-align: right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Card -->
+    {% else %}
+        <tr>
+            <td colspan="4">no records found</td>
+        </tr>
+    {% endfor %}
 {% endblock %}
