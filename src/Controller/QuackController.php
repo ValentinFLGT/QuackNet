@@ -36,6 +36,7 @@ class QuackController extends AbstractController
     public function new(Request $request): Response
     {
         $quack = new Quack();
+        $quack->setCreatedAt(new \DateTime('now'));
         $quack->setAuthor($this->getUser());
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);

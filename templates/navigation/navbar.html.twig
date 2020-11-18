@@ -26,6 +26,9 @@
                     </li>
                 {% endif %}
             </ul>
+            {% if app.user %}
+            <p class="welcome-message">Welcome {{ app.user.duckName }}</p>
+            {% endif %}
             <form class="form-inline my-2 my-lg-0 custom-navbar">
                 <input class="form-control mr-sm-2 quack-color" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn my-2 my-sm-0 quack-color" type="submit">Search</button>

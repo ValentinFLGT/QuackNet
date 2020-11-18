@@ -5,7 +5,9 @@ body {
 .custom-navbar {
     background-color: #ffffff;
 }
-
+.welcome-message {
+    padding: 16px 20px 0 0;
+}
 .custom-title {
     text-align: center;
     margin: 50px;
