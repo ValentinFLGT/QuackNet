@@ -65,22 +65,25 @@ class DuckController extends AbstractController
         $form = $this->createForm(DuckType::class, $duck);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $duck->setPassword(
-                $passwordEncoder->encodePassword(
-                    $duck,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+        if ($this->getUser() !== $duck) {
+            if ($form->isSubmitted() && $form->isValid()) {
+                // encode the plain password
+                $duck->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $duck,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($duck);
-            $entityManager->flush();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($duck);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
+                return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
+            } else {
+                return $this->redirectToRoute('quack_index', ['id' => $this->getUser()->getId()]);
+            }
         }
-
         return $this->render('duck/edit.html.twig', [
             'duck' => $duck,
             'form' => $form->createView(),
@@ -95,7 +98,7 @@ class DuckController extends AbstractController
      */
     public function delete(Request $request, Duck $duck): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$duck->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $duck->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($duck);
             $entityManager->flush();
