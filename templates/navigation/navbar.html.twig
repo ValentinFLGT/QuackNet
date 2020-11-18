@@ -1,19 +1,30 @@
 {% block body %}
     <nav class="navbar navbar-expand-lg custom-navbar">
-        <img class="navbar-brand" src="{{ asset('assets/quack-logo.png') }}" alt="logo" style="width: 35px; height:35px"/>
-        <button class="navbar-toggler quack-color" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        <a href="/quack"><img class="navbar-brand" src="{{ asset('assets/quack-logo.png') }}" alt="logo"
+                              style="width: 35px; height:35px"/></a>
+        <button class="navbar-toggler quack-color" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse custom-navbar" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link quack-color" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link quack-color" href="#">Link</a>
-                </li>
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link quack-color" href="/duck/{{ app.user.id }}">Mon Profil</a>
+                    </li>
+                    <li>
+                        <a class="nav-link quack-color" href="/logout">Logout</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a class="nav-link quack-color" href="/login">Login</a>
+                    </li>
+                    <li>
+                        <a class="nav-link quack-color" href="/register">Register</a>
+                    </li>
+                {% endif %}
             </ul>
             <form class="form-inline my-2 my-lg-0 custom-navbar">
                 <input class="form-control mr-sm-2 quack-color" type="search" placeholder="Search" aria-label="Search">

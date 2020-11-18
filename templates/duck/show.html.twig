@@ -27,18 +27,8 @@
                 <th>Email</th>
                 <td>{{ duck.email }}</td>
             </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ duck.roles ? duck.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ duck.password }}</td>
-            </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('duck_index') }}">back to list</a>
 
     <a href="{{ path('duck_edit', {'id': duck.id}) }}">edit</a>
 

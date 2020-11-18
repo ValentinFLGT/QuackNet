@@ -15,15 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DuckController extends AbstractController
 {
-    /**
-     * @Route("/", name="duck_index", methods={"GET"})
-     */
-    public function index(DuckRepository $duckRepository): Response
-    {
-        return $this->render('duck/index.html.twig', [
-            'ducks' => $duckRepository->findAll(),
-        ]);
-    }
 
     /**
      * @Route("/new", name="duck_new", methods={"GET","POST"})
@@ -69,7 +60,7 @@ class DuckController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('duck_index');
+            return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
         }
 
         return $this->render('duck/edit.html.twig', [

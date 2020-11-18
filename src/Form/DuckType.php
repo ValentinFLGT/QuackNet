@@ -14,9 +14,7 @@ class DuckType extends AbstractType
         $builder
             ->add('lastName')
             ->add('firstName')
-            ->add('duckName')
             ->add('email')
-            ->add('roles')
             ->add('password')
         ;
     }
