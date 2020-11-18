@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Duck;
 use App\Form\DuckType;
-use App\Form\RegistrationFormType;
-use App\Repository\DuckRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,18 +15,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class DuckController extends AbstractController
 {
-    /**
-     * @Route("/", name="duck_index", methods={"GET"})
-     */
-    public function index(DuckRepository $duckRepository): Response
-    {
-        return $this->render('duck/index.html.twig', [
-            'ducks' => $duckRepository->findAll(),
-        ]);
-    }
 
     /**
      * @Route("/new", name="duck_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -41,7 +32,7 @@ class DuckController extends AbstractController
             $entityManager->persist($duck);
             $entityManager->flush();
 
-            return $this->redirectToRoute('duck_index');
+            return $this->redirectToRoute('quack_index');
         }
 
         return $this->render('duck/new.html.twig', [
@@ -52,6 +43,8 @@ class DuckController extends AbstractController
 
     /**
      * @Route("/{id}", name="duck_show", methods={"GET"})
+     * @param Duck $duck
+     * @return Response
      */
     public function show(Duck $duck): Response
     {
@@ -63,6 +56,7 @@ class DuckController extends AbstractController
     /**
      * @Route("/{id}/edit", name="duck_edit", methods={"GET","POST"})
      * @param Request $request
+     * @param Duck $duck
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
      */
@@ -84,7 +78,7 @@ class DuckController extends AbstractController
             $entityManager->persist($duck);
             $entityManager->flush();
 
-            return $this->redirectToRoute('duck_index');
+            return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
         }
 
         return $this->render('duck/edit.html.twig', [
@@ -95,6 +89,9 @@ class DuckController extends AbstractController
 
     /**
      * @Route("/{id}", name="duck_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Duck $duck
+     * @return Response
      */
     public function delete(Request $request, Duck $duck): Response
     {
@@ -104,6 +101,6 @@ class DuckController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('duck_index');
+        return $this->redirectToRoute('quack_index');
     }
 }

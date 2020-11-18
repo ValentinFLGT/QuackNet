@@ -23,22 +23,10 @@ security:
                     - App\Security\DuckAuthenticator
             logout:
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # require ROLE_ADMIN for /admin*
         - { path: '^/admin', roles: ROLE_ADMIN }
+        - { path: '^/register', roles: [ IS_ANONYMOUS ] }
+        - { path: '^/quack', roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: '^/duck', roles: [ IS_AUTHENTICATED_FULLY ] }
 
-        # or require ROLE_ADMIN or IS_AUTHENTICATED_FULLY for /admin*
-        - { path: '^/admin', roles: [ IS_AUTHENTICATED_FULLY, ROLE_ADMIN ] }
-        - { path: '^/quack', roles: [ IS_AUTHENTICATED_FULLY, ROLE_USER ] }
-        - { path: '^/quack/new', roles: [ IS_AUTHENTICATED_FULLY, ROLE_USER ] }

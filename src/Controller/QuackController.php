@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Duck;
 use App\Entity\Quack;
 use App\Form\QuackType;
-use App\Repository\DuckRepository;
 use App\Repository\QuackRepository;
-use phpDocumentor\Reflection\DocBlock\Tags\Author;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +20,7 @@ class QuackController extends AbstractController
      * @param QuackRepository $quackRepository
      * @return Response
      */
-    public function index(QuackRepository $quackRepository, DuckRepository $duckRepository): Response
+    public function index(QuackRepository $quackRepository): Response
     {
         return $this->render('quack/index.html.twig', [
             'quacks' => $quackRepository->findAll(),
@@ -32,6 +29,8 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/new", name="quack_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -56,6 +55,8 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/{id}", name="quack_show", methods={"GET"})
+     * @param Quack $quack
+     * @return Response
      */
     public function show(Quack $quack): Response
     {
@@ -66,6 +67,9 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="quack_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Quack $quack
+     * @return Response
      */
     public function edit(Request $request, Quack $quack): Response
     {
@@ -86,6 +90,9 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/{id}", name="quack_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Quack $quack
+     * @return Response
      */
     public function delete(Request $request, Quack $quack): Response
     {

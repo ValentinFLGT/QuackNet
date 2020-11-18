@@ -69,13 +69,12 @@ a:hover {
     padding-top: 25px;
 }
 .collapse-content .fa-feather{
-    font-size: 50px;
+    font-size: 32px;
     color: #5cb85c;
-    padding-left: 30px;
-    padding-top: 10px;
+    padding-top: 4px;
 }
 .collapse-content .citation {
-    padding-bottom: 40px;
+    padding-bottom: 45px;
 }
 .collapse-content .fa-comment-dots {
     font-size: 32px;
