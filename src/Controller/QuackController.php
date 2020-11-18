@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Duck;
 use App\Entity\Quack;
 use App\Form\QuackType;
 use App\Repository\DuckRepository;
 use App\Repository\QuackRepository;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +36,7 @@ class QuackController extends AbstractController
     public function new(Request $request): Response
     {
         $quack = new Quack();
+        $quack->setAuthor($this->getUser());
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 

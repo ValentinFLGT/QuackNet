@@ -6,15 +6,6 @@
 
     <h1 class="quackTitle">Quack Quack Mofo!!!</h1>
         {% for quack in quacks %}
-{#            <div class="card" style="width: 18rem;">#}
-{#                <img src="http://placehold.it/350x150" class="card-img-top" alt="...">#}
-{#                <div class="card-body">#}
-{#                    <h5 class="card-title">{{ quack.id }}</h5>#}
-{#                    <p class="card-text">{{ quack.content }}</p>#}
-{#                    <p class="card-text">{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</p>#}
-{#                    <a href="#" class="btn btn-primary">Go somewhere</a>#}
-{#                </div>#}
-{#            </div>#}
             <!-- Card -->
             <div class="card promoting-card">
                 <!-- Card content -->
@@ -24,7 +15,7 @@
                     <!-- Content -->
                     <div class="card-top-text">
                         <!-- Title -->
-                        <h4 class="card-title font-weight-bold mb-2">{{ quack.id }}</h4>
+                        <h4 class="card-title font-weight-bold mb-2">{{ quack.author.duckName }}</h4>
                         <!-- Subtitle -->
                         <p class="card-text"><i class="far fa-clock pr-2"></i>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</p>
                     </div>
@@ -37,7 +28,7 @@
                         <!-- Text -->
                         <div class="row citation">
                             <i class="fas fa-feather col-sm-1"></i>
-                            <p class="card-text col-sm-11">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex exercitationem ipsa itaque numquam, omnis perspiciatis quia repellat. At culpa cumque debitis dolores expedita, officia perferendis veritatis. Aperiam atque debitis dicta eius eveniet, expedita, fugiat harum maxime nihil non nulla officiis sapiente tempora temporibus tenetur ullam velit voluptas voluptates. Iure, ratione.</p>
+                            <p class="card-text col-sm-11">{{ quack.content }}</p>
                         </div>
                         <!-- Button -->
                         <a href="{{ path('quack_new') }}" class="btn btn-outline-success float-left ml-5 mr-5">Quack Back</a>

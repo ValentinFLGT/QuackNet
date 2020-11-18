@@ -1,3 +1,49 @@
+body {
+    background-color: #f0f2f5;
+}
+
+.custom-navbar {
+    background-color: #ffffff;
+}
+
+.custom-title {
+    text-align: center;
+    margin: 50px;
+}
+
+.quack-color {
+    color: #2e77f2;
+}
+
+.btn-quack-color {
+    background-color: #2e77f2;
+}
+
+a:hover {
+    color: #4A8CFF;
+}
+
+.custom-container {
+    display: flex;
+}
+
+.to-the-right {
+    margin-left: 50px;
+}
+
+.btn-align {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-spacing {
+    margin-right: 20px;
+}
+
+.text-spacing {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 .promoting-card {
     margin-bottom: 40px;
 }
