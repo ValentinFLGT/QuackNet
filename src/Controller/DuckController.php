@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Duck;
 use App\Form\DuckType;
+use App\Form\RegistrationFormType;
 use App\Repository\DuckRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/duck")
@@ -60,14 +62,27 @@ class DuckController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="duck_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return Response
      */
-    public function edit(Request $request, Duck $duck): Response
+    public function edit(Request $request, Duck $duck, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $form = $this->createForm(DuckType::class, $duck);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            // encode the plain password
+            $duck->setPassword(
+                $passwordEncoder->encodePassword(
+                    $duck,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($duck);
+            $entityManager->flush();
 
             return $this->redirectToRoute('duck_index');
         }

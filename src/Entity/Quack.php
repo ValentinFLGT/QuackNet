@@ -18,7 +18,6 @@ class Quack
     private $id;
 
     /**
-     // * @ORM\ManyToOne(targetEntity="App\Entity\Duck", inversedBy="quacks")
      * @ORM\ManyToOne(targetEntity="App\Entity\Duck", inversedBy="quacks", fetch="EAGER")
      */
     private $author;
