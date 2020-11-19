@@ -81,7 +81,7 @@ class DuckController extends AbstractController
 
                 return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
             } else {
-                return $this->redirectToRoute('quack_index', ['id' => $this->getUser()->getId()]);
+                return $this->redirectToRoute('quack_index');
             }
         }
         return $this->render('duck/edit.html.twig', [

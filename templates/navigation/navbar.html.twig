@@ -28,6 +28,8 @@
             </ul>
             {% if app.user %}
             <p class="welcome-message">Welcome {{ app.user.duckName }}</p>
+            <img src="/uploads/images/ducks/{{ app.user.fileName }}" class="rounded-circle mr-3"
+             height="35px" width="35px" alt="avatar">
             {% endif %}
             <form class="form-inline my-2 my-lg-0 custom-navbar">
                 <input class="form-control mr-sm-2 quack-color" type="search" placeholder="Search" aria-label="Search">
