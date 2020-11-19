@@ -99,6 +99,10 @@ class DuckController extends AbstractController
      */
     public function delete(Request $request, Duck $duck): Response
     {
+        if (!$this->isGranted('DELETE_DUCK', $duck)) {
+            throw $this->createAccessDeniedException('Oh my god! You\'re about to kill your friend!');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $duck->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($duck);

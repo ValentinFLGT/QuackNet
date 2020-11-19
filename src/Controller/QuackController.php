@@ -67,16 +67,15 @@ class QuackController extends AbstractController
     /**
      * @Route("/quack/{id}/edit", name="quack_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param Duck $duck
      * @param Quack $quack
      * @return Response
      */
-    public function edit(Request $request, Duck $duck, Quack $quack): Response
+    public function edit(Request $request, Quack $quack): Response
     {
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
-        if (!$this->isGranted('DELETE_QUACK', $duck)) {
+        if (!$this->isGranted('EDIT_QUACK', $quack)) {
             throw $this->createAccessDeniedException('Hands off other quack!');
         }
 
@@ -100,6 +99,10 @@ class QuackController extends AbstractController
      */
     public function delete(Request $request, Quack $quack): Response
     {
+        if (!$this->isGranted('DELETE_QUACK', $quack)) {
+            throw $this->createAccessDeniedException('Are you sure bout\' quack ?');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$quack->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($quack);

@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Security;
-
 
 use App\Entity\Duck;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class DuckEditingVoter extends Voter
+class DuckEditVoter extends Voter
 {
     protected function supports(string $attribute, $subject)
     {
