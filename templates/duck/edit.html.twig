@@ -3,7 +3,10 @@
 {% block title %}Edit Duck{% endblock %}
 
 {% block body %}
-    <h1>Edit Duck</h1>
+    <h1>Modifier mon Profil</h1>
+
+    <img src="/uploads/images/ducks/{{ duck.fileName }}" class="rounded-circle mr-3"
+         height="100px" width="100px" alt="avatar">
 
     {{ include('duck/_form.html.twig', {'button_label': 'Update'}) }}
 
