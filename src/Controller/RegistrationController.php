@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Duck;
 use App\Form\RegistrationFormType;
+use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +20,7 @@ class RegistrationController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, UploaderHelper $uploaderHelper): Response
     {
         $user = new Duck();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -32,7 +34,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image']->getData();
 
+            if($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadDuckImage($uploadedFile);
+                $user->setFileName($newFilename);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

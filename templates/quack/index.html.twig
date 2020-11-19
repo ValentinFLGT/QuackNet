@@ -29,20 +29,29 @@
                     <!-- Text -->
                     <div class="row citation">
                         <p class="col-1"></p>
-                        <p class="card-text col-sm-10">{{ quack.content }}</p>
-                        <p class="col-1"></p>
+                        <p class="card-text col-10">{{ quack.content }}</p>
+                        {% if quack.fileName %}
+{#                            <div class="quackPictureContainer">#}
+                                <img src="/uploads/images/quacks/{{ quack.fileName }}" class="quackPicture col-12"
+                                     height="auto" width="100%" alt="quackPicture">
+{#                            </div>#}
+                        {% endif %}
+{#                        <p class="col-1"></p>#}
                     </div>
                     <!-- Buttons -->
                     <div class="container">
                         <div class="row">
-                            <a href="{{ path('quack_new') }}" class="btn btn-outline-success float-left col-2" style="height: 39px">Quack
+                            <a href="{{ path('quack_new') }}" class="btn btn-outline-success float-left col-2"
+                               style="height: 39px">Quack
                                 Back</a>
                             <i class="fas fa-feather col-1" style="height: 35px"></i>
                             <div class="col-3" style="height: 35px"></div>
                             <div class="col-3" style="height: 35px"></div>
-                            <i class="far fa-comment-dots float-right p-1 my-1 col-1" style="height: 35px; text-align: right"></i>
+                            <i class="far fa-comment-dots float-right p-1 my-1 col-1"
+                               style="height: 35px; text-align: right"></i>
                             <i class="fas fa-share-alt text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
-                               data-placement="top" title="Share this Quack" style="height: 35px; text-align: right"></i>
+                               data-placement="top" title="Share this Quack"
+                               style="height: 35px; text-align: right"></i>
                             <i class="fas fa-heart text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
                                data-placement="top" title="I Quack it" style="height: 35px; text-align: right"></i>
                         </div>

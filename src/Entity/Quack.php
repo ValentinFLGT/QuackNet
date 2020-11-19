@@ -18,6 +18,13 @@ class Quack
     private $id;
 
     /**
+     * @var string | null
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fileName;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Duck", inversedBy="quacks", fetch="EAGER")
      */
     private $author;
@@ -75,6 +82,24 @@ class Quack
     public function setAuthor($author): void
     {
         $this->author = $author;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string|null $fileName
+     * @return Quack
+     */
+    public function setFileName(?string $fileName): Quack
+    {
+        $this->fileName = $fileName;
+        return $this;
     }
 
 }

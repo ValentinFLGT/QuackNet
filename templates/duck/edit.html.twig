@@ -4,11 +4,18 @@
 
 {% block body %}
     <h1>Modifier mon Profil</h1>
+    {% if duck.fileName %}
+        <img src="/uploads/images/ducks/{{ duck.fileName }}" class="rounded-circle mr-3"
+             height="100px" width="100px" alt="avatar">
+    {% else %}
+        <img src="../../public/uploads/images/defaultDuck.png" class="rounded-circle mr-3"
+             height="100px" width="100px" alt="avatar">
+    {% endif %}
 
-    <img src="/uploads/images/ducks/{{ duck.fileName }}" class="rounded-circle mr-3"
-         height="100px" width="100px" alt="avatar">
 
     {{ include('duck/_form.html.twig', {'button_label': 'Update'}) }}
+
+
 
     {{ include('duck/_delete_form.html.twig') }}
 {% endblock %}

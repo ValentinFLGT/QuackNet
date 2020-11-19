@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Quack;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
+use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +31,7 @@ class QuackController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UploaderHelper $uploaderHelper): Response
     {
         $quack = new Quack();
         $quack->setCreatedAt(new \DateTime('now'));
@@ -38,6 +40,15 @@ class QuackController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image']->getData();
+
+
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadQuackImage($uploadedFile);
+                $quack->setFileName($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quack);
             $entityManager->flush();
@@ -69,12 +80,20 @@ class QuackController extends AbstractController
      * @param Quack $quack
      * @return Response
      */
-    public function edit(Request $request, Quack $quack): Response
+    public function edit(Request $request, Quack $quack, UploaderHelper $uploaderHelper): Response
     {
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image']->getData();
+
+
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadQuackImage($uploadedFile);
+                $quack->setFileName($newFilename);
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('quack_index');

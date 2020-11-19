@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Duck;
 use App\Form\DuckType;
+use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,30 +62,42 @@ class DuckController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
      */
-    public function edit(Request $request, Duck $duck, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function edit(Request $request, Duck $duck, UserPasswordEncoderInterface $passwordEncoder, UploaderHelper $uploaderHelper): Response
     {
         $form = $this->createForm(DuckType::class, $duck);
         $form->handleRequest($request);
 
-        if ($this->getUser() !== $duck) {
+        if ($this->getUser() == $duck) {
             if ($form->isSubmitted() && $form->isValid()) {
-                // encode the plain password
-                $duck->setPassword(
-                    $passwordEncoder->encodePassword(
-                        $duck,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
 
+                $updatedPassword = $form['plainPassword']->getData();
+
+                if ($updatedPassword) {
+                    // encode the plain password
+                    $duck->setPassword(
+                        $passwordEncoder->encodePassword(
+                            $duck,
+                            $updatedPassword
+                        )
+                    );
+                }
+                /** @var UploadedFile $uploadedFile */
+                $uploadedFile = $form['image']->getData();
+
+
+                if ($uploadedFile) {
+                    $newFilename = $uploaderHelper->uploadDuckImage($uploadedFile);
+                    $duck->setFileName($newFilename);
+                }
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($duck);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
+            }
             } else {
                 return $this->redirectToRoute('quack_index');
             }
-        }
         return $this->render('duck/edit.html.twig', [
             'duck' => $duck,
             'form' => $form->createView(),
