@@ -1,0 +1,98 @@
+body {
+    background-color: #f0f2f5;
+}
+
+.custom-navbar {
+    background-color: #ffffff;
+}
+.welcome-message {
+    padding: 16px 20px 0 0;
+}
+.custom-title {
+    text-align: center;
+    margin: 50px;
+}
+
+.quack-color {
+    color: #2e77f2;
+}
+
+.btn-quack-color {
+    background-color: #2e77f2;
+}
+
+a:hover {
+    color: #4A8CFF;
+}
+
+.custom-container {
+    display: flex;
+}
+
+.to-the-right {
+    margin-left: 50px;
+}
+
+.btn-align {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-spacing {
+    margin-right: 20px;
+}
+
+.text-spacing {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.promoting-card {
+    margin-bottom: 40px;
+}
+.collapse-content .fa-heart{
+    font-size: 30px;
+    color: darkgrey !important;
+}
+.collapse-content .fa-heart:hover {
+    color: #f44336 !important;
+}
+.collapse-content .fa-share-alt {
+    font-size: 30px;
+    color: darkgrey !important;
+}
+.collapse-content .fa-share-alt:hover {
+    color: #0d47a1 !important;
+}
+.quackTitle {
+    text-align: center;
+    padding: 50px;
+}
+.card-top-text {
+    padding-top: 25px;
+}
+.collapse-content .fa-feather{
+    font-size: 32px;
+    color: #5cb85c;
+    padding-top: 4px;
+}
+.collapse-content .citation {
+    padding-bottom: 45px;
+}
+.collapse-content .fa-comment-dots {
+    font-size: 32px;
+    color: darkgrey;
+}
+.collapse-content .fa-comment-dots:hover {
+    color: #5cb85c;
+}
+.card-top-text .card-text {
+    color: darkgrey;
+}
+
+.homeContainer {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

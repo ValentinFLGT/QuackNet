@@ -18,6 +18,11 @@ class Quack
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Duck", inversedBy="quacks", fetch="EAGER")
+     */
+    private $author;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -55,4 +60,31 @@ class Quack
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author): void
+    {
+        $this->author = $author;
+    }
+
+    public function isPrivate(){
+
+        $isPrivate = true;
+
+        if(!$isPrivate){
+            return "coucou from voter";
+        }
+        return "Sorry, access is denied";
+    }
+
 }

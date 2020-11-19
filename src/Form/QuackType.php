@@ -13,7 +13,6 @@ class QuackType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('created_at')
         ;
     }
 
