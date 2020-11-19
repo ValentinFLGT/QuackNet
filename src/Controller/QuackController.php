@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Duck;
 use App\Entity\Quack;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
@@ -66,13 +67,18 @@ class QuackController extends AbstractController
     /**
      * @Route("/quack/{id}/edit", name="quack_edit", methods={"GET","POST"})
      * @param Request $request
+     * @param Duck $duck
      * @param Quack $quack
      * @return Response
      */
-    public function edit(Request $request, Quack $quack): Response
+    public function edit(Request $request, Duck $duck, Quack $quack): Response
     {
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
+
+        if (!$this->isGranted('DELETE_QUACK', $duck)) {
+            throw $this->createAccessDeniedException('Hands off other quack!');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();

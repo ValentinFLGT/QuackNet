@@ -10,8 +10,12 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-    user_voter:
-        class: App\Security\DuckVoter
+    duck_voter:
+        class: App\Security\DuckEditingVoter
+        tags:
+            - { name: security.voter }
+    quack_voter:
+        class: App\Security\QuackEditingVoter
         tags:
             - { name: security.voter }
 

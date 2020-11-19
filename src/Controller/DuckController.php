@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Security\DuckEditingVoter;
 
 /**
  * @Route("/duck")
@@ -66,8 +65,8 @@ class DuckController extends AbstractController
         $form = $this->createForm(DuckType::class, $duck);
         $form->handleRequest($request);
 
-        if (!$this->isGranted('NOM', $duck)) {
-            throw $this->createAccessDeniedException('Hands off others quackmation!');
+        if (!$this->isGranted('EDIT_DUCK', $duck)) {
+            throw $this->createAccessDeniedException('Who the quack do you think you are?!');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
