@@ -5,7 +5,9 @@ body {
 .custom-navbar {
     background-color: #ffffff;
 }
-
+.welcome-message {
+    padding: 16px 20px 0 0;
+}
 .custom-title {
     text-align: center;
     margin: 50px;
@@ -87,7 +89,7 @@ a:hover {
     color: darkgrey;
 }
 
-.test {
+.homeContainer {
     height: 90vh;
     display: flex;
     flex-direction: column;

@@ -10,13 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/quack")
- */
 class QuackController extends AbstractController
 {
     /**
-     * @Route("/", name="quack_index", methods={"GET"})
+     * @Route("/quack", name="quack_index", methods={"GET"})
      * @param QuackRepository $quackRepository
      * @return Response
      */
@@ -28,13 +25,14 @@ class QuackController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="quack_new", methods={"GET","POST"})
+     * @Route("/quack/new", name="quack_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
     public function new(Request $request): Response
     {
         $quack = new Quack();
+        $quack->setCreatedAt(new \DateTime('now'));
         $quack->setAuthor($this->getUser());
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
@@ -54,7 +52,7 @@ class QuackController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="quack_show", methods={"GET"})
+     * @Route("/quack/{id}", name="quack_show", methods={"GET"})
      * @param Quack $quack
      * @return Response
      */
@@ -66,7 +64,7 @@ class QuackController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="quack_edit", methods={"GET","POST"})
+     * @Route("/quack/{id}/edit", name="quack_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Quack $quack
      * @return Response
@@ -89,7 +87,7 @@ class QuackController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="quack_delete", methods={"DELETE"})
+     * @Route("/quack/{id}", name="quack_delete", methods={"DELETE"})
      * @param Request $request
      * @param Quack $quack
      * @return Response
