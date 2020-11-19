@@ -4,8 +4,6 @@
 
 {% block body %}
     <h1>Edit Duck</h1>
-    {% if is_granted('NOM', duck) %}
     {{ include('duck/_form.html.twig', {'button_label': 'Update'}) }}
     {{ include('duck/_delete_form.html.twig') }}
-    {% endif %}
 {% endblock %}
