@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Security\DuckEditingVoter;
 
 /**
  * @Route("/duck")
@@ -65,25 +66,26 @@ class DuckController extends AbstractController
         $form = $this->createForm(DuckType::class, $duck);
         $form->handleRequest($request);
 
-        if ($this->getUser() !== $duck) {
-            if ($form->isSubmitted() && $form->isValid()) {
-                // encode the plain password
-                $duck->setPassword(
-                    $passwordEncoder->encodePassword(
-                        $duck,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($duck);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
-            } else {
-                return $this->redirectToRoute('quack_index', ['id' => $this->getUser()->getId()]);
-            }
+        if (!$this->isGranted('NOM', $duck)) {
+            throw $this->createAccessDeniedException('Hands off others quackmation!');
         }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $duck->setPassword(
+                $passwordEncoder->encodePassword(
+                    $duck,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($duck);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
+        }
+
         return $this->render('duck/edit.html.twig', [
             'duck' => $duck,
             'form' => $form->createView(),

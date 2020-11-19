@@ -78,4 +78,14 @@ class Quack
         $this->author = $author;
     }
 
+    public function isPrivate(){
+
+        $isPrivate = true;
+
+        if(!$isPrivate){
+            return "coucou from voter";
+        }
+        return "Sorry, access is denied";
+    }
+
 }
