@@ -37,7 +37,9 @@
                         <div class="row">
                             <a href="{{ path('quack_new') }}" class="btn btn-outline-success float-left col-2" style="height: 39px">Quack
                                 Back</a>
-                            <i class="fas fa-feather col-1" style="height: 35px"></i>
+                            {% if quack.author == app.user.quacks.owner %}
+                            <a href="{{ path('quack_edit', { 'id': quack.id }) }}"><i class="fas fa-feather col-1" style="height: 35px"></i></a>
+                            {% endif %}
                             <div class="col-3" style="height: 35px"></div>
                             <div class="col-3" style="height: 35px"></div>
                             <i class="far fa-comment-dots float-right p-1 my-1 col-1" style="height: 35px; text-align: right"></i>
