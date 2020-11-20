@@ -22,7 +22,7 @@
                     <h4 class="card-title font-weight-bold mb-2">{{ quack.author.duckName }}</h4>
                     <!-- Subtitle -->
                     <p class="card-text"><i
-                                class="far fa-clock pr-2"></i>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}
+                                class="far fa-clock pr-2"></i>{{ quack.createdAt ? quack.createdAt|date("d.m.Y H:i:s") : '' }}
                     </p>
                 </div>
             </div>
@@ -34,12 +34,9 @@
                         <p class="col-1"></p>
                         <p class="card-text col-10">{{ quack.content }}</p>
                         {% if quack.fileName %}
-                            {# <div class="quackPictureContainer"> #}
                             <img src="/uploads/images/quacks/{{ quack.fileName }}" class="quackPicture col-12"
                                  height="auto" width="100%" alt="quackPicture">
-                            {# </div> #}
                         {% endif %}
-                        {# <p class="col-1"></p> #}
                     </div>
                     <!-- Buttons -->
                     <div class="container">

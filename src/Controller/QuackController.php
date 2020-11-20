@@ -19,6 +19,7 @@ class QuackController extends AbstractController
      * @Route("/quack", name="quack_index", methods={"GET","POST"})
      * @param QuackRepository $quackRepository
      * @param Request $request
+     * @param UploaderHelper $uploaderHelper
      * @return Response
      */
     public function new(QuackRepository $quackRepository, Request $request, UploaderHelper $uploaderHelper): Response
@@ -47,7 +48,7 @@ class QuackController extends AbstractController
         }
 
         return $this->render('quack/index.html.twig', [
-            'quacks' => $quackRepository->findAll(), 'quack' => $quack,
+            'quacks' => $quackRepository->findAllDesc(), 'quack' => $quack,
             'form' => $form->createView(),
         ]);
     }
@@ -68,6 +69,7 @@ class QuackController extends AbstractController
      * @Route("/quack/{id}/edit", name="quack_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Quack $quack
+     * @param UploaderHelper $uploaderHelper
      * @return Response
      */
     public function edit(Request $request, Quack $quack, UploaderHelper $uploaderHelper): Response
