@@ -131,6 +131,38 @@ input {
     overflow:hidden;
 }
 
+.comments-div {
+    display: none;
+    margin: -35px 0 40px 0;
+}
+ .comment-div-content {
+     width: 70%;
+     margin-left: auto;
+     background-color: white;
+     border-radius: 4px;
+     border: 1px solid #E0E0E0;
+ }
+ .comment-modal-avatar {
+     padding-top: 5px;
+     margin-left: 10px;
+ }
+ .comment-modal-duckname {
+     font-weight: bold;
+     padding-top: 7px;
+     margin-left: -40px;
+ }
+ .comment-modal-content {
+     padding-top: 7px;
+     font-style: italic;
+ }
+ .modal .fa-plus-circle {
+     color: #5cb85c;
+     font-size: 20px;
+     padding-top: 10px;
+     margin-right: 10px;
+     margin-left: auto;
+ }
+
 
 /*ERROR 404*/
 

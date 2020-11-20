@@ -53,8 +53,7 @@
                             {% endif %}
                             <div class="col-3" style="height: 35px"></div>
                             <div class="col-3" style="height: 35px"></div>
-                            <i class="far fa-comment-dots float-right p-1 my-1 col-1"
-                               style="height: 35px; text-align: right"></i>
+                            <i class="far fa-comment-dots float-right p-1 my-1 col-1" style="height: 35px; text-align: right" data-toggle="modal" data-target="#modal{{ quack.id }}"></i>
                             <i class="fas fa-share-alt text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
                                data-placement="top" title="Share this Quack"
                                style="height: 35px; text-align: right"></i>
@@ -66,6 +65,22 @@
             </div>
         </div>
         <!-- Card -->
+        <!-- Comments -->
+        <div class="modal fade bd-example-modal-lg" id="modal{{ quack.id }}" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="row">
+                        <img src="/uploads/images/ducks/{{ quack.author.fileName }}" class="rounded-circle mr-3 col-auto comment-modal-avatar"
+                             height="35px" width="35px" alt="avatar">
+                        <p class="col-auto comment-modal-duckname">{{ quack.author.duckName }} :</p>
+                        <p class="comment-modal-content col-auto">{{ quack.content }}</p>
+                        <i class="fas fa-plus-circle col-auto"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Comments -->
+
     {% else %}
         <tr>
             <td colspan="4">no records found</td>
