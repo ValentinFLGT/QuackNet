@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Duck;
 use App\Form\DuckType;
+use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Security\DuckEditingVoter;
 
 /**
  * @Route("/duck")
@@ -61,31 +62,42 @@ class DuckController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
      */
-    public function edit(Request $request, Duck $duck, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function edit(Request $request, Duck $duck, UserPasswordEncoderInterface $passwordEncoder, UploaderHelper $uploaderHelper): Response
     {
         $form = $this->createForm(DuckType::class, $duck);
         $form->handleRequest($request);
 
-        if (!$this->isGranted('NOM', $duck)) {
-            throw $this->createAccessDeniedException('Hands off others quackmation!');
+        if (!$this->isGranted('EDIT_DUCK', $duck)) {
+            throw $this->createAccessDeniedException('Who the quack do you think you are?!');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $duck->setPassword(
-                $passwordEncoder->encodePassword(
-                    $duck,
-                    $form->get('plainPassword')->getData()
-                )
-            );
 
+            $updatedPassword = $form['plainPassword']->getData();
+
+            if ($updatedPassword) {
+                // encode the plain password
+                $duck->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $duck,
+                        $updatedPassword
+                    )
+                );
+            }
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image']->getData();
+
+
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadDuckImage($uploadedFile);
+                $duck->setFileName($newFilename);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($duck);
             $entityManager->flush();
 
             return $this->redirectToRoute('duck_show', ['id' => $this->getUser()->getId()]);
         }
-
         return $this->render('duck/edit.html.twig', [
             'duck' => $duck,
             'form' => $form->createView(),
@@ -100,6 +112,10 @@ class DuckController extends AbstractController
      */
     public function delete(Request $request, Duck $duck): Response
     {
+        if (!$this->isGranted('DELETE_DUCK', $duck)) {
+            throw $this->createAccessDeniedException('Oh my god! You\'re about to kill your friend!');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $duck->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($duck);

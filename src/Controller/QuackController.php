@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Duck;
 use App\Entity\Quack;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
+use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,23 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuackController extends AbstractController
 {
     /**
-     * @Route("/quack", name="quack_index", methods={"GET"})
+     * @Route("/quack", name="quack_index", methods={"GET","POST"})
      * @param QuackRepository $quackRepository
-     * @return Response
-     */
-    public function index(QuackRepository $quackRepository): Response
-    {
-        return $this->render('quack/index.html.twig', [
-            'quacks' => $quackRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/quack/new", name="quack_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(QuackRepository $quackRepository, Request $request, UploaderHelper $uploaderHelper): Response
     {
         $quack = new Quack();
         $quack->setCreatedAt(new \DateTime('now'));
@@ -38,6 +30,15 @@ class QuackController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image']->getData();
+
+
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadQuackImage($uploadedFile);
+                $quack->setFileName($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quack);
             $entityManager->flush();
@@ -45,8 +46,8 @@ class QuackController extends AbstractController
             return $this->redirectToRoute('quack_index');
         }
 
-        return $this->render('quack/new.html.twig', [
-            'quack' => $quack,
+        return $this->render('quack/index.html.twig', [
+            'quacks' => $quackRepository->findAll(), 'quack' => $quack,
             'form' => $form->createView(),
         ]);
     }
@@ -69,12 +70,24 @@ class QuackController extends AbstractController
      * @param Quack $quack
      * @return Response
      */
-    public function edit(Request $request, Quack $quack): Response
+    public function edit(Request $request, Quack $quack, UploaderHelper $uploaderHelper): Response
     {
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
+        if (!$this->isGranted('EDIT_QUACK', $quack)) {
+            throw $this->createAccessDeniedException('Hands off other quack!');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image']->getData();
+
+
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadQuackImage($uploadedFile);
+                $quack->setFileName($newFilename);
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('quack_index');
@@ -94,7 +107,11 @@ class QuackController extends AbstractController
      */
     public function delete(Request $request, Quack $quack): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$quack->getId(), $request->request->get('_token'))) {
+        if (!$this->isGranted('DELETE_QUACK', $quack)) {
+            throw $this->createAccessDeniedException('Are you sure bout\' quack ?');
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $quack->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($quack);
             $entityManager->flush();

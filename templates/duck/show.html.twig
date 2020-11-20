@@ -3,30 +3,36 @@
 {% block title %}Duck{% endblock %}
 
 {% block body %}
-    <h1>Duck</h1>
-
+    <h1>Mon Profil</h1>
+    {% if duck.fileName %}
+        <img src="/uploads/images/ducks/{{ duck.fileName }}" class="rounded-circle mr-3"
+             height="100px" width="100px" alt="avatar">
+    {% else %}
+        <img src="{{ asset('uploads/defaultDuck.png') }}" class="rounded-circle mr-3"
+             height="100px" width="100px" alt="avatar">
+    {% endif %}
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ duck.id }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
-                <td>{{ duck.lastName }}</td>
-            </tr>
-            <tr>
-                <th>FirstName</th>
-                <td>{{ duck.firstName }}</td>
-            </tr>
-            <tr>
-                <th>DuckName</th>
-                <td>{{ duck.duckName }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ duck.email }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ duck.id }}</td>
+        </tr>
+        <tr>
+            <th>LastName</th>
+            <td>{{ duck.lastName }}</td>
+        </tr>
+        <tr>
+            <th>FirstName</th>
+            <td>{{ duck.firstName }}</td>
+        </tr>
+        <tr>
+            <th>DuckName</th>
+            <td>{{ duck.duckName }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ duck.email }}</td>
+        </tr>
         </tbody>
     </table>
 

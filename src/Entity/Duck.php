@@ -7,12 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=DuckRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
- * @Vich\Uploadable
  */
 class Duck implements UserInterface
 {
@@ -22,13 +20,6 @@ class Duck implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @var File | null
-     *
-     * @Vich\UploadableField(mapping="duck_image", fileNameProperty="fileName")
-     */
-    private $imageFile;
 
     /**
      * @var string | null
@@ -73,11 +64,6 @@ class Duck implements UserInterface
      */
     private $password;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -102,7 +88,7 @@ class Duck implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -129,7 +115,7 @@ class Duck implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -218,30 +204,6 @@ class Duck implements UserInterface
     public function setQuacks($quacks): void
     {
         $this->quacks = $quacks;
-    }
-
-    /**
-     * @return File|null
-     */
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param File|null $imageFile
-     * @return Duck
-     */
-    public function setImageFile(?File $imageFile = null): Duck
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-        return $this;
     }
 
     /**

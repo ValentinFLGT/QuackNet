@@ -10,8 +10,18 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-    user_voter:
-        class: App\Security\DuckVoter
+        bind:
+            $uploadsPath: '%kernel.project_dir%/public/uploads'
+    duck_edit_voter:
+        class: App\Security\DuckEditVoter
+        tags:
+            - { name: security.voter }
+    quack_edit_voter:
+        class: App\Security\QuackEditVoter
+        tags:
+            - { name: security.voter }
+    quack_delete_voter:
+        class: App\Security\QuackDeleteVoter
         tags:
             - { name: security.voter }
 

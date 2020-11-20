@@ -18,9 +18,16 @@ class Quack
     private $id;
 
     /**
+     * @var string | null
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fileName;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Duck", inversedBy="quacks", fetch="EAGER")
      */
-    private $author;
+    public $author;
 
     /**
      * @ORM\Column(type="text")
@@ -77,14 +84,22 @@ class Quack
         $this->author = $author;
     }
 
-    public function isPrivate(){
+    /**
+     * @return string|null
+     */
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
 
-        $isPrivate = true;
-
-        if(!$isPrivate){
-            return "coucou from voter";
-        }
-        return "Sorry, access is denied";
+    /**
+     * @param string|null $fileName
+     * @return Quack
+     */
+    public function setFileName(?string $fileName): Quack
+    {
+        $this->fileName = $fileName;
+        return $this;
     }
 
 }
