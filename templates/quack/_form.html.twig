@@ -1,6 +1,7 @@
 {{ form_start(form) }}
 <div class="row">
-    <div class="new-quack-container">
+    <audio id="audio" src="{{ asset('dry-fart.mp3') }}"></audio>
+    <div class="new-quack-container" onclick="play()">
         {{ form_row(form.content, {
             label: false
         }) }}
@@ -13,3 +14,10 @@
     </div>
 </div>
 {{ form_end(form) }}
+
+<script>
+    function play() {
+        let audio = document.getElementById("audio");
+        audio.play();
+    }
+</script>
