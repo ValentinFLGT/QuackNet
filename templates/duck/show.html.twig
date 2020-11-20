@@ -4,8 +4,13 @@
 
 {% block body %}
     <h1>Mon Profil</h1>
-    <img src="/uploads/images/ducks/{{ duck.fileName }}" class="rounded-circle mr-3"
-         height="100px" width="100px" alt="avatar">
+    {% if duck.fileName %}
+        <img src="/uploads/images/ducks/{{ duck.fileName }}" class="rounded-circle mr-3"
+             height="100px" width="100px" alt="avatar">
+    {% else %}
+        <img src="{{ asset('uploads/images/defaultDuck.png') }}" class="rounded-circle mr-3"
+             height="100px" width="100px" alt="avatar">
+    {% endif %}
     <table class="table">
         <tbody>
             <tr>

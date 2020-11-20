@@ -5,6 +5,9 @@
 {% block body %}
 
     <h1 class="quackTitle">Quack Quack Mofo!!!</h1>
+    {% if app.user %}
+    {{ include('quack/_form.html.twig') }}
+    {% endif %}
     {% for quack in quacks %}
         <!-- Card -->
         <div class="card promoting-card">
@@ -41,7 +44,7 @@
                     <!-- Buttons -->
                     <div class="container">
                         <div class="row">
-                            <a href="{{ path('quack_new') }}" class="btn btn-outline-success float-left col-2"
+                            <a href="{{ path('quack_index') }}" class="btn btn-outline-success float-left col-2"
                                style="height: 39px">Quack
                                 Back</a>
                             <i class="fas fa-feather col-1" style="height: 35px"></i>

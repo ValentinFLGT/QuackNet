@@ -15,23 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuackController extends AbstractController
 {
     /**
-     * @Route("/quack", name="quack_index", methods={"GET"})
+     * @Route("/quack", name="quack_index", methods={"GET","POST"})
      * @param QuackRepository $quackRepository
-     * @return Response
-     */
-    public function index(QuackRepository $quackRepository): Response
-    {
-        return $this->render('quack/index.html.twig', [
-            'quacks' => $quackRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/quack/new", name="quack_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request, UploaderHelper $uploaderHelper): Response
+    public function new(QuackRepository $quackRepository, Request $request, UploaderHelper $uploaderHelper): Response
     {
         $quack = new Quack();
         $quack->setCreatedAt(new \DateTime('now'));
@@ -56,10 +45,13 @@ class QuackController extends AbstractController
             return $this->redirectToRoute('quack_index');
         }
 
-        return $this->render('quack/new.html.twig', [
-            'quack' => $quack,
+        return $this->render('quack/index.html.twig', [
+            'quacks' => $quackRepository->findAll(),'quack' => $quack,
             'form' => $form->createView(),
         ]);
+//        return $this->render('quack/new.html.twig', [
+//
+//        ]);
     }
 
     /**

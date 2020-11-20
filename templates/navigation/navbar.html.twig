@@ -19,7 +19,7 @@
                              <img src="/uploads/images/ducks/{{ app.user.fileName }}" class="rounded-circle mr-3"
                              height="35px" width="35px" alt="avatar">
                             {% else %}
-                                <img src="../../public/uploads/images/defaultDuck.png" class="rounded-circle mr-3"
+                                <img src="{{ asset('uploads/images/defaultDuck.png') }}" class="rounded-circle mr-3"
                                  height="35px" width="35px" alt="avatar">
                             {% endif %}
                         </a>

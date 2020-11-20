@@ -8,7 +8,7 @@
         <img src="/uploads/images/ducks/{{ duck.fileName }}" class="rounded-circle mr-3"
              height="100px" width="100px" alt="avatar">
     {% else %}
-        <img src="../../public/uploads/images/defaultDuck.png" class="rounded-circle mr-3"
+        <img src="{{ asset('uploads/images/defaultDuck.png') }}" class="rounded-circle mr-3"
              height="100px" width="100px" alt="avatar">
     {% endif %}
 
