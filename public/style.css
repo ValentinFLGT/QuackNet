@@ -102,3 +102,31 @@ a:hover {
     margin-right: auto;
     display: block;
 }
+
+.new-quack-container {
+    display: flex;
+    justify-content: flex-start;
+    padding: 15px;
+}
+
+.new-quack-btn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 80px;
+}
+
+.content-width {
+    width: 800px;
+    height: 100px;
+}
+
+.p6px {
+    padding-bottom: 6px;
+}
+
+input {
+    width: 140px;
+    overflow:hidden;
+}

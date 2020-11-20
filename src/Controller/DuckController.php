@@ -68,7 +68,7 @@ class DuckController extends AbstractController
         $form->handleRequest($request);
 
         if (!$this->isGranted('EDIT_DUCK', $duck)) {
-            throw $this->createAccessDeniedException('Who the quack do you think you are?!');
+            throw $this->createAccessDeniedException('Who the duck do you think you are?!');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -1,4 +1,15 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Publish') }}</button>
+<div class="row">
+    <div class="new-quack-container">
+        {{ form_row(form.content, {
+            label: false
+        }) }}
+        <div class="new-quack-btn-container p6px">
+            {{ form_row(form.image, {
+                label: false
+            }) }}
+            <button class="btn btn-outline-success" style="height: 39px">{{ button_label|default('Publish') }}</button>
+        </div>
+    </div>
+</div>
 {{ form_end(form) }}
