@@ -169,6 +169,18 @@ input {
      margin-bottom: 0;
      padding-left: 12px;
  }
+ .card-body .badge-wrapper{
+     position: relative;
+ }
+ .card-body .badge {
+     position: absolute;
+     background-color: #5cb85c;
+     border-radius: 50px;
+     right: -3px;
+     top: 0;
+     width: auto;
+     font-size: 13px;
+ }
  .duck-profil{
      margin-bottom: 2px;
  }
