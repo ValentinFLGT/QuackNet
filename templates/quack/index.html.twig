@@ -3,7 +3,6 @@
 {% block title %}Quack index{% endblock %}
 
 {% block body %}
-
     <h1 class="quackTitle">Quack Quack Mofo!!!</h1>
     {% if app.user %}
         {{ include('quack/_form.html.twig') }}
@@ -14,15 +13,17 @@
             <!-- Card head -->
             <div class="card-body d-flex flex-row">
                 <!-- Avatar -->
-                <img src="/uploads/images/ducks/{{ quack.author.fileName }}" class="rounded-circle mr-3"
-                     height="100px" width="100px" alt="avatar">
+                <a href="{{ path('duck_show', {'id': quack.author.id }) }}">
+                    <img src="/uploads/images/ducks/{{ quack.author.fileName }}" class="rounded-circle mr-3"
+                         height="60px" width="60px" alt="avatar">
+                </a>
                 <!-- Content -->
                 <div class="card-top-text">
                     <!-- Title -->
                     <h4 class="card-title font-weight-bold mb-2">{{ quack.author.duckName }}</h4>
                     <!-- Subtitle -->
                     <p class="card-text"><i
-                                class="far fa-clock pr-2"></i>{{ quack.createdAt ? quack.createdAt|date("d.m.Y H:i:s") : '' }}
+                                class="far fa-clock pr-2"></i>{{ quack.createdAt ? quack.createdAt|ago : '' }}
                     </p>
                 </div>
             </div>
@@ -70,12 +71,27 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="row">
-                        <img src="/uploads/images/ducks/{{ quack.author.fileName }}" class="rounded-circle mr-3 col-auto comment-modal-avatar"
-                             height="35px" width="35px" alt="avatar">
-                        <p class="col-auto comment-modal-duckname">{{ quack.author.duckName }} :</p>
-                        <p class="comment-modal-content col-auto">{{ quack.content }}</p>
-                        <i class="fas fa-plus-circle col-auto"></i>
+                        <h5 class="col-2">Comments!!!</h5>
+                        <a href="{{ path('quack_show', {'id': quack.id }) }}">
+                            <i class="fas fa-plus-circle col-auto"></i>
+                        </a>
                     </div>
+
+{#                    {% if app.user %}#}
+{#                        {{ include('quack/_comment_form.html.twig') }}#}
+{#                    {% endif %}#}
+                    {% for comment in quack.comments | sort((b,a)=>a.createdAt <=> b.createdAt)%}
+                        <p class="comment-created-at">{{ comment.createdAt|ago }} :</p>
+                        <div class="row">
+                            <a href="{{ path('duck_show', {'id': comment.author.id }) }}">
+                                <img src="/uploads/images/ducks/{{ comment.author.fileName }}" class="rounded-circle mr-3 col-auto comment-modal-avatar"
+                                     height="35px" width="35px" alt="avatar">
+                            </a>
+                            <p class="col-auto comment-modal-duckname">{{ comment.author.duckName }}</p>
+                            <p class="comment-modal-content col-auto">{{ comment.content }}</p>
+                        </div>
+                    {% endfor %}
+
                 </div>
             </div>
         </div>
@@ -87,3 +103,4 @@
         </tr>
     {% endfor %}
 {% endblock %}
+

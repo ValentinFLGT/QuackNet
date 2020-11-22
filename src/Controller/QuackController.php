@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Duck;
 use App\Entity\Quack;
+use App\Form\CommentType;
 use App\Form\QuackType;
+use App\Repository\CommentRepository;
 use App\Repository\QuackRepository;
 use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,14 +57,31 @@ class QuackController extends AbstractController
     }
 
     /**
-     * @Route("/quack/{id}", name="quack_show", methods={"GET"})
+     * @Route("/quack/{id}", name="quack_show", methods={"GET","POST"})
      * @param Quack $quack
      * @return Response
      */
-    public function show(Quack $quack): Response
+    public function show(Quack $quack, CommentRepository $commentRepository, Request $request): Response
     {
+        $comment = new Comment();
+        $comment->setCreatedAt(new \DateTime('now'));
+        $comment->setAuthor($this->getUser());
+        $comment->setQuack($quack);
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('quack_show', ['id' => $quack->getId()]);
+        }
         return $this->render('quack/show.html.twig', [
             'quack' => $quack,
+            'comments' => $commentRepository->findBy(array(), array('createdAt' => 'DESC')), 'comment' => $comment,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 
@@ -92,7 +112,7 @@ class QuackController extends AbstractController
             }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('quack_index');
+            return $this->redirectToRoute('quack_show', ['id' => $quack->getId()]);
         }
 
         return $this->render('quack/edit.html.twig', [
@@ -119,6 +139,6 @@ class QuackController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('quack_index');
+        return $this->redirectToRoute('duck_show', ['id' => $quack->getAuthor()->getId()]);
     }
 }

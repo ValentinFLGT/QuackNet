@@ -67,9 +67,9 @@ a:hover {
     text-align: center;
     padding: 50px;
 }
-.card-top-text {
-    padding-top: 25px;
-}
+/*.card-top-text {*/
+/*    padding-top: 25px;*/
+/*}*/
 .collapse-content .fa-feather{
     font-size: 32px;
     color: #5cb85c;
@@ -154,15 +154,24 @@ input {
  .comment-modal-content {
      padding-top: 7px;
      font-style: italic;
+     margin-left: 10px;
  }
  .modal .fa-plus-circle {
      color: #5cb85c;
-     font-size: 20px;
-     padding-top: 10px;
-     margin-right: 10px;
-     margin-left: auto;
+     font-size: 25px;
  }
-
+ .comment-textarea {
+     margin: 0 0 10px 50px
+ }
+ .comment-created-at {
+     font-size: 10px;
+     color: darkgrey;
+     margin-bottom: 0;
+     padding-left: 12px;
+ }
+ .duck-profil{
+     margin-bottom: 2px;
+ }
 
 /*ERROR 404*/
 

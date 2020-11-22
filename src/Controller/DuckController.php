@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Duck;
+use App\Entity\Quack;
 use App\Form\DuckType;
+use App\Form\QuackType;
+use App\Repository\QuackRepository;
 use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -44,14 +47,38 @@ class DuckController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="duck_show", methods={"GET"})
+     * @Route("/{id}", name="duck_show", methods={"GET", "POST"})
      * @param Duck $duck
      * @return Response
      */
-    public function show(Duck $duck): Response
+    public function show(Duck $duck, QuackRepository $quackRepository, Request $request, UploaderHelper $uploaderHelper): Response
     {
+        $quack = new Quack();
+        $quack->setCreatedAt(new \DateTime('now'));
+        $quack->setAuthor($this->getUser());
+        $form = $this->createForm(QuackType::class, $quack);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['image']->getData();
+
+
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadQuackImage($uploadedFile);
+                $quack->setFileName($newFilename);
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($quack);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('duck_show', ['id' => $duck->getId()]);
+        }
+
         return $this->render('duck/show.html.twig', [
             'duck' => $duck,
+            'form' => $form->createView(),
         ]);
     }
 

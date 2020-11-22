@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20201120091648 extends AbstractMigration
+final class Version20201121231625 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,6 +20,9 @@ final class Version20201120091648 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE comment (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, quack_id INTEGER NOT NULL, author_id INTEGER NOT NULL, content VARCHAR(255) NOT NULL, created_at DATETIME DEFAULT NULL)');
+        $this->addSql('CREATE INDEX IDX_9474526CD3950CA9 ON comment (quack_id)');
+        $this->addSql('CREATE INDEX IDX_9474526CF675F31B ON comment (author_id)');
         $this->addSql('CREATE TABLE duck (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, file_name VARCHAR(255) DEFAULT NULL, last_name VARCHAR(180) NOT NULL, first_name VARCHAR(180) NOT NULL, duck_name VARCHAR(180) NOT NULL, email VARCHAR(180) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
         , password VARCHAR(255) NOT NULL)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_538A95471E7F0B13 ON duck (duck_name)');
@@ -31,6 +34,7 @@ final class Version20201120091648 extends AbstractMigration
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('DROP TABLE comment');
         $this->addSql('DROP TABLE duck');
         $this->addSql('DROP TABLE quack');
     }

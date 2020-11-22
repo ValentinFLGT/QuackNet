@@ -3,28 +3,49 @@
 {% block title %}Quack{% endblock %}
 
 {% block body %}
-    <h1>Quack</h1>
-
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ quack.id }}</td>
-        </tr>
-        <tr>
-            <th>Content</th>
-            <td>{{ quack.content }}</td>
-        </tr>
-        <tr>
-            <th>Created_at</th>
-            <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('quack_index') }}">back to list</a>
-
+    <div class="card-body d-flex flex-row">
+        <!-- Avatar -->
+        <a href="{{ path('duck_show', {'id': quack.author.id }) }}">
+            <img src="/uploads/images/ducks/{{ quack.author.fileName }}" class="rounded-circle mr-3"
+                 height="60px" width="60px" alt="avatar">
+        </a>
+        <!-- Content -->
+        <div class="card-top-text">
+            <!-- Title -->
+            <h4 class="card-title font-weight-bold mb-2">{{ quack.author.duckName }}</h4>
+            <!-- Subtitle -->
+            <p class="card-text"><i
+                        class="far fa-clock pr-2"></i>{{ quack.createdAt ? quack.createdAt|ago : '' }}
+            </p>
+        </div>
+    </div>
+    <div class="row citation">
+        <p class="col-1"></p>
+        <p class="card-text col-10">{{ quack.content }}</p>
+        {% if quack.fileName %}
+            <img src="/uploads/images/quacks/{{ quack.fileName }}" class="quackPicture col-12"
+                 height="auto" width="100%" alt="quackPicture">
+        {% endif %}
+    </div>
+    <hr>
+    {% if app.user == quack.author %}
     <a href="{{ path('quack_edit', {'id': quack.id}) }}">edit</a>
-
     {{ include('quack/_delete_form.html.twig') }}
+    {% endif %}
+
+    {% if app.user %}
+        {{ include ('quack/_comment_form.html.twig') }}
+    {% endif %}
+
+    {% for comment in quack.comments | sort((b,a)=>a.createdAt <=> b.createdAt) %}
+        <p class="comment-created-at">{{ comment.createdAt|ago }} :</p>
+        <div class="row">
+            <a href="{{ path('duck_show', {'id': comment.author.id }) }}">
+                <img src="/uploads/images/ducks/{{ comment.author.fileName }}" class="rounded-circle mr-3 col-auto comment-modal-avatar"
+                     height="35px" width="35px" alt="avatar">
+            </a>
+            <p class="col-auto comment-modal-duckname">{{ comment.author.duckName }}</p>
+            <p class="comment-modal-content col-auto">{{ comment.content }}</p>
+        </div>
+    {% endfor %}
 {% endblock %}
