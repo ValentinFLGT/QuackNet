@@ -22,6 +22,27 @@ class Tag
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Quack", inversedBy="tags")
+     */
+    private $quacks;
+
+    /**
+     * @return mixed
+     */
+    public function getQuacks()
+    {
+        return $this->quacks;
+    }
+
+    /**
+     * @param mixed $quacks
+     */
+    public function setQuacks($quacks): void
+    {
+        $this->quacks = $quacks;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

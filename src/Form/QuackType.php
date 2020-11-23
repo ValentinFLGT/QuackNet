@@ -22,6 +22,7 @@ class QuackType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
+            ->add('tags', SearchForm::class)
         ;
     }
 

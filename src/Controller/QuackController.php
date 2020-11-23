@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Duck;
 use App\Entity\Quack;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
