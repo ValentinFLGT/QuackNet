@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TagRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,24 +25,13 @@ class Tag
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Quack", inversedBy="tags")
+     * @ORM\ManyToMany(targetEntity=Quack::class, mappedBy="tags")
      */
     private $quacks;
 
-    /**
-     * @return mixed
-     */
-    public function getQuacks()
+    public function __construct()
     {
-        return $this->quacks;
-    }
-
-    /**
-     * @param mixed $quacks
-     */
-    public function setQuacks($quacks): void
-    {
-        $this->quacks = $quacks;
+        $this->quacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -56,6 +47,38 @@ class Tag
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Collection|Quack[]
+     */
+    public function getQuacks(): Collection
+    {
+        return $this->quacks;
+    }
+
+    public function addQuack(Quack $quack): self
+    {
+        if (!$this->quacks->contains($quack)) {
+            $this->quacks[] = $quack;
+            $quack->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuack(Quack $quack): self
+    {
+        if ($this->quacks->removeElement($quack)) {
+            $quack->removeTag($this);
+        }
 
         return $this;
     }
