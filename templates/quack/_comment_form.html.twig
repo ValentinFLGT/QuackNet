@@ -1,8 +1,10 @@
 {{ form_start(commentForm) }}
-<div class="row">
+
+<div>
     {{ form_row(commentForm.content, {
         label: false
     }) }}
-    <button class="btn btn-outline-success" style="height: fit-content;margin-top: -3px;margin-left: 20px;">{{ button_label|default('Comment') }}</button>
+    <button class="btn btn-outline-success">{{ button_label|default('Comment') }}</button>
 </div>
+
 {{ form_end(commentForm) }}

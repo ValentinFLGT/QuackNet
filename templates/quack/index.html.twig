@@ -3,7 +3,6 @@
 {% block title %}Quack index{% endblock %}
 
 {% block body %}
-    <h1 class="quackTitle">Quack Quack Mofo!!!</h1>
     {% if app.user %}
         {{ include('quack/_form.html.twig') }}
     {% endif %}
@@ -39,6 +38,13 @@
                                  height="auto" width="100%" alt="quackPicture">
                         {% endif %}
                     </div>
+                    <div class="row p20">
+                        {% for tag in quack.tags %}
+                            <div class="tags col-1">
+                                {{ tag }}
+                            </div>
+                        {% endfor %}
+                    </div>
                     <!-- Buttons -->
                     <div class="container">
                         <div class="row">
@@ -53,7 +59,9 @@
                             {% endif %}
                             <div class="col-3" style="height: 35px"></div>
                             <div class="col-3" style="height: 35px"></div>
-                            <i class="far fa-comment-dots badge-wrapper float-right p-1 my-1 col-1" style="height: 35px; text-align: right" data-toggle="modal" data-target="#modal{{ quack.id }}">
+                            <i class="far fa-comment-dots badge-wrapper float-right p-1 my-1 col-1"
+                               style="height: 35px; text-align: right" data-toggle="modal"
+                               data-target="#modal{{ quack.id }}">
                                 <span class='badge badge-secondary'>{{ quack.comments | length }}</span>
                             </i>
                             <i class="fas fa-share-alt text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
@@ -68,7 +76,8 @@
         </div>
         <!-- Card -->
         <!-- Comments -->
-        <div class="modal fade bd-example-modal-lg" id="modal{{ quack.id }}" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="modal{{ quack.id }}" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="row">
@@ -77,15 +86,12 @@
                             <i class="fas fa-plus-circle col-auto"></i>
                         </a>
                     </div>
-
-{#                    {% if app.user %}#}
-{#                        {{ include('quack/_comment_form.html.twig') }}#}
-{#                    {% endif %}#}
-                    {% for comment in quack.comments | sort((b,a)=>a.createdAt <=> b.createdAt)%}
+                    {% for comment in quack.comments | sort((b,a)=>a.createdAt <=> b.createdAt) %}
                         <p class="comment-created-at">{{ comment.createdAt|ago }} :</p>
                         <div class="row">
                             <a href="{{ path('duck_show', {'id': comment.author.id }) }}">
-                                <img src="/uploads/images/ducks/{{ comment.author.fileName }}" class="rounded-circle mr-3 col-auto comment-modal-avatar"
+                                <img src="/uploads/images/ducks/{{ comment.author.fileName }}"
+                                     class="rounded-circle mr-3 col-auto comment-modal-avatar"
                                      height="35px" width="35px" alt="avatar">
                             </a>
                             <p class="col-auto comment-modal-duckname">{{ comment.author.duckName }}</p>

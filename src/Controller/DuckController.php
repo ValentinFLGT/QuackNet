@@ -6,7 +6,6 @@ use App\Entity\Duck;
 use App\Entity\Quack;
 use App\Form\DuckType;
 use App\Form\QuackType;
-use App\Repository\QuackRepository;
 use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -49,9 +48,11 @@ class DuckController extends AbstractController
     /**
      * @Route("/{id}", name="duck_show", methods={"GET", "POST"})
      * @param Duck $duck
+     * @param Request $request
+     * @param UploaderHelper $uploaderHelper
      * @return Response
      */
-    public function show(Duck $duck, QuackRepository $quackRepository, Request $request, UploaderHelper $uploaderHelper): Response
+    public function show(Duck $duck, Request $request, UploaderHelper $uploaderHelper): Response
     {
         $quack = new Quack();
         $quack->setCreatedAt(new \DateTime('now'));

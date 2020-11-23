@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
-use App\Entity\Duck;
 use App\Entity\Quack;
 use App\Form\CommentType;
 use App\Form\QuackType;
@@ -37,7 +36,6 @@ class QuackController extends AbstractController
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $form['image']->getData();
 
-
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadQuackImage($uploadedFile);
                 $quack->setFileName($newFilename);
@@ -59,6 +57,8 @@ class QuackController extends AbstractController
     /**
      * @Route("/quack/{id}", name="quack_show", methods={"GET","POST"})
      * @param Quack $quack
+     * @param CommentRepository $commentRepository
+     * @param Request $request
      * @return Response
      */
     public function show(Quack $quack, CommentRepository $commentRepository, Request $request): Response

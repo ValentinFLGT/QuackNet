@@ -29,8 +29,12 @@
     </div>
     <hr>
     {% if app.user == quack.author %}
-    <a href="{{ path('quack_edit', {'id': quack.id}) }}">edit</a>
-    {{ include('quack/_delete_form.html.twig') }}
+        <div class="row">
+            <a href="{{ path('quack_edit', {'id': quack.id}) }}" class="col-1" style="margin-bottom: 16px">
+                <button class="btn btn-outline-warning">Edit</button>
+            </a>
+            {{ include('quack/_delete_form.html.twig') }}
+        </div>
     {% endif %}
 
     {% if app.user %}
@@ -41,7 +45,8 @@
         <p class="comment-created-at">{{ comment.createdAt|ago }} :</p>
         <div class="row">
             <a href="{{ path('duck_show', {'id': comment.author.id }) }}">
-                <img src="/uploads/images/ducks/{{ comment.author.fileName }}" class="rounded-circle mr-3 col-auto comment-modal-avatar"
+                <img src="/uploads/images/ducks/{{ comment.author.fileName }}"
+                     class="rounded-circle mr-3 col-auto comment-modal-avatar"
                      height="35px" width="35px" alt="avatar">
             </a>
             <p class="col-auto comment-modal-duckname">{{ comment.author.duckName }}</p>

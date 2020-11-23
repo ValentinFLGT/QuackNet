@@ -15,14 +15,15 @@ class QuackType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
-                'attr' => ['class' => 'content-width',
-                    'placeholder' => ' Quack a new quack!'],
+                'attr' => [
+                    'placeholder' => ' Quack a new quack!'
+                ],
             ])
             ->add('image', FileType::class, [
                 'mapped' => false,
                 'required' => false
             ])
-        ;
+            ->add('tags');
     }
 
     public function configureOptions(OptionsResolver $resolver)
