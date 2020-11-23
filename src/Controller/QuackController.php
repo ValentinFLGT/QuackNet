@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Duck;
+use App\Entity\Comment;
 use App\Entity\Quack;
+use App\Form\CommentType;
 use App\Form\QuackType;
+use App\Repository\CommentRepository;
 use App\Repository\QuackRepository;
 use App\Service\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +21,7 @@ class QuackController extends AbstractController
      * @Route("/quack", name="quack_index", methods={"GET","POST"})
      * @param QuackRepository $quackRepository
      * @param Request $request
+     * @param UploaderHelper $uploaderHelper
      * @return Response
      */
     public function new(QuackRepository $quackRepository, Request $request, UploaderHelper $uploaderHelper): Response
@@ -33,7 +36,6 @@ class QuackController extends AbstractController
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $form['image']->getData();
 
-
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadQuackImage($uploadedFile);
                 $quack->setFileName($newFilename);
@@ -47,20 +49,39 @@ class QuackController extends AbstractController
         }
 
         return $this->render('quack/index.html.twig', [
-            'quacks' => $quackRepository->findAll(), 'quack' => $quack,
+            'quacks' => $quackRepository->findAllDesc(), 'quack' => $quack,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/quack/{id}", name="quack_show", methods={"GET"})
+     * @Route("/quack/{id}", name="quack_show", methods={"GET","POST"})
      * @param Quack $quack
+     * @param CommentRepository $commentRepository
+     * @param Request $request
      * @return Response
      */
-    public function show(Quack $quack): Response
+    public function show(Quack $quack, CommentRepository $commentRepository, Request $request): Response
     {
+        $comment = new Comment();
+        $comment->setCreatedAt(new \DateTime('now'));
+        $comment->setAuthor($this->getUser());
+        $comment->setQuack($quack);
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('quack_show', ['id' => $quack->getId()]);
+        }
         return $this->render('quack/show.html.twig', [
             'quack' => $quack,
+            'comments' => $commentRepository->findBy(array(), array('createdAt' => 'DESC')), 'comment' => $comment,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 
@@ -68,6 +89,7 @@ class QuackController extends AbstractController
      * @Route("/quack/{id}/edit", name="quack_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Quack $quack
+     * @param UploaderHelper $uploaderHelper
      * @return Response
      */
     public function edit(Request $request, Quack $quack, UploaderHelper $uploaderHelper): Response
@@ -90,7 +112,7 @@ class QuackController extends AbstractController
             }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('quack_index');
+            return $this->redirectToRoute('quack_show', ['id' => $quack->getId()]);
         }
 
         return $this->render('quack/edit.html.twig', [
@@ -117,6 +139,6 @@ class QuackController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('quack_index');
+        return $this->redirectToRoute('duck_show', ['id' => $quack->getAuthor()->getId()]);
     }
 }

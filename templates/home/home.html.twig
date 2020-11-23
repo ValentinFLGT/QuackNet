@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <audio id="audio" src="{{ asset('quack.mp3') }}"></audio>
     <div class="homeContainer">
-        <img src="{{ asset('assets/quack-logo.png') }}" alt="background"/>
+        <img src="{{ asset('assets/quack-logo.png') }}" alt="background" onclick="play()"/>
         <a href="{{ path('quack_index') }}" class="btn btn-outline-success" style="margin-top: 70px;
     width: 300px;height: auto;font-size: 30px;border: 2px solid">Start Quacking!</a>
     </div>
+<script>
+    function play() {
+        let audio = document.getElementById("audio");
+        audio.play();
+    }
+</script>
 {% endblock %}
