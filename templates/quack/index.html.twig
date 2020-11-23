@@ -48,27 +48,30 @@
                     <!-- Buttons -->
                     <div class="container">
                         <div class="row">
-                            <a href="#" class="btn btn-outline-success float-left col-2"
-                               style="height: 39px">Quack Back</a>
                             {% if app.user %}
+                                <a href="#" class="btn btn-outline-success float-left col-2"
+                                   style="height: 39px">Quack Back</a>
+                                {% if quack.author != app.user.quacks.owner %}
+                                    <div class="col-1"></div>
+                                {% endif %}
                                 {% if quack.author == app.user.quacks.owner %}
                                     <a href="{{ path('quack_edit', { 'id': quack.id }) }}"><i
                                                 class="fas fa-feather col-1"
-                                                style="height: 35px"></i></a>
+                                                style="height: 35px; width: 89px"></i></a>
                                 {% endif %}
+                                <div class="col-3" style="height: 35px"></div>
+                                <div class="col-3" style="height: 35px"></div>
+                                <i class="far fa-comment-dots badge-wrapper float-right p-1 my-1 col-1"
+                                   style="height: 35px; text-align: right" data-toggle="modal"
+                                   data-target="#modal{{ quack.id }}">
+                                    <span class='badge badge-secondary'>{{ quack.comments | length }}</span>
+                                </i>
+                                <i class="fas fa-share-alt text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
+                                   data-placement="top" title="Share this Quack"
+                                   style="height: 35px; text-align: right"></i>
+                                <i class="fas fa-heart text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
+                                   data-placement="top" title="I Quack it" style="height: 35px; text-align: right"></i>
                             {% endif %}
-                            <div class="col-3" style="height: 35px"></div>
-                            <div class="col-3" style="height: 35px"></div>
-                            <i class="far fa-comment-dots badge-wrapper float-right p-1 my-1 col-1"
-                               style="height: 35px; text-align: right" data-toggle="modal"
-                               data-target="#modal{{ quack.id }}">
-                                <span class='badge badge-secondary'>{{ quack.comments | length }}</span>
-                            </i>
-                            <i class="fas fa-share-alt text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
-                               data-placement="top" title="Share this Quack"
-                               style="height: 35px; text-align: right"></i>
-                            <i class="fas fa-heart text-muted float-right p-1 my-1 col-1" data-toggle="tooltip"
-                               data-placement="top" title="I Quack it" style="height: 35px; text-align: right"></i>
                         </div>
                     </div>
                 </div>
