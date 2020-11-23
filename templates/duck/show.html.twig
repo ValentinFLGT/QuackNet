@@ -28,7 +28,7 @@
         {% endif %}
     </div>
 
-    {% for quack in duck.quacks %}
+    {% for quack in duck.quacks | sort((b,a)=>a.createdAt <=> b.createdAt)%}
         <!-- Card -->
         <div class="card promoting-card">
             <!-- Card head -->
