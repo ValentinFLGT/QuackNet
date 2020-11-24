@@ -23,16 +23,18 @@
         <p class="col-1"></p>
         <p class="card-text col-9">{{ quack.content }}</p>
         {% if quack.fileName %}
-            <img src="/uploads/images/quacks/{{ quack.fileName }}" class="quackPicture col-12"
-                 height="auto" width="100%" alt="quackPicture">
+            <img src="/uploads/images/quacks/{{ quack.fileName }}" class="quackPicture"
+                  alt="quackPicture">
         {% endif %}
-        {% if app.user == quack.author %}
-            <a href="{{ path('quack_edit', {'id': quack.id}) }}" class="col-1" style="margin-bottom: 16px">
+    </div>
+    {% if app.user == quack.author %}
+        <div class="row mt16">
+            <a href="{{ path('quack_edit', {'id': quack.id}) }}" class="col-1">
                 <button class="btn btn-outline-warning">Edit</button>
             </a>
             {{ include('quack/_delete_form.html.twig') }}
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
     <hr>
     {% if app.user %}
         {{ include ('quack/_comment_form.html.twig') }}
@@ -48,7 +50,7 @@
             </a>
             <p class="col-auto comment-modal-duckname">{{ comment.author.duckName }}</p>
             <p class="comment-modal-content col-auto">{{ comment.content }}</p>
-            {% if (app.user == comment.author) or (app.user == quack.author) %}
+            {% if (app.user == comment.author) or (app.user == quack.author) or (app.user.roles[0] == "ROLE_MODERATOR")%}
                 <a href="{{ path('comment_edit', {'id': comment.id}) }}" style="margin-bottom: 16px; padding-right: 10px"><i
                             class="fas fa-feather yellow-feather"></i>
                 </a>

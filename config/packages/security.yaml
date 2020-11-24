@@ -26,7 +26,8 @@ security:
 
     access_control:
         - { path: '^/admin', roles: ROLE_ADMIN }
-        - { path: '^/register', roles: [ IS_ANONYMOUS ] }
-        - { path: '^/quack/', roles: [ IS_AUTHENTICATED_FULLY ] }
-        - { path: '^/duck', roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: '^/register', roles: [ IS_ANONYMOUS, ROLE_MODERATOR ] }
+        - { path: '^/quack/', roles: [ IS_AUTHENTICATED_FULLY, ROLE_MODERATOR ] }
+        - { path: '^/duck', roles: [ IS_AUTHENTICATED_FULLY, ROLE_MODERATOR ] }
+
 
