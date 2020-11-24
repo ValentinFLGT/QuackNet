@@ -23,7 +23,9 @@ class CommentDeleteVoter extends Voter
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
         if ($token->getUser() != $subject) {
-            return false;
+            if ($token->getRoleNames()[0] != "ROLE_MODERATOR") {
+                return false;
+            }
         }
         return true;
     }
