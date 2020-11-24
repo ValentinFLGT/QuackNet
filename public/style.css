@@ -206,6 +206,13 @@ input {
     margin-bottom: 32px;
     margin-top: 32px;
 }
+.fa-trash-alt {
+    margin-top: 10px;
+    color: red;
+}
+.delete-comment-button {
+    border: none;
+}
 
 /*ERROR 404*/
 
