@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block body %}
+
+    <h1 class="mt16">Edit Comment</h1>
+
+    {{ include('comment/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <div class="row mt16">
+
+        <a href="{{ path('quack_show', {'id': comment.quack.id }) }}" class="col-2">
+            <button class="btn btn-outline-warning">Back to Quack</button>
+        </a>
+
+        {{ include('comment/_delete_form.html.twig') }}
+
+    </div>
+
+{% endblock %}

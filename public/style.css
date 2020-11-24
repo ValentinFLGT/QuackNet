@@ -198,9 +198,8 @@ input {
 
 .new-quack-card {
     background-clip: border-box;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid #5cb85c;
     border-radius: .25rem;
-    box-shadow: 10px 10px 10px #5cb85c;
     padding: 10px;
     background-color: white;
     margin-bottom: 32px;
@@ -212,6 +211,24 @@ input {
 }
 .delete-comment-button {
     border: none;
+}
+
+.fa-trash-alt {
+    margin-top: 10px;
+    color: red;
+}
+.delete-comment-button {
+    border: none;
+}
+
+.yellow-feather {
+    margin-top: 10px;
+    color: #ffc107;
+    height: 35px
+}
+
+.mt16 {
+    margin-top: 16px;
 }
 
 /*ERROR 404*/
