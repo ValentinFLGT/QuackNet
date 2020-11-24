@@ -21,29 +21,26 @@
     </div>
     <div class="row citation">
         <p class="col-1"></p>
-        <p class="card-text col-10">{{ quack.content }}</p>
+        <p class="card-text col-9">{{ quack.content }}</p>
         {% if quack.fileName %}
             <img src="/uploads/images/quacks/{{ quack.fileName }}" class="quackPicture col-12"
                  height="auto" width="100%" alt="quackPicture">
         {% endif %}
-    </div>
-    <hr>
-    {% if app.user == quack.author %}
-        <div class="row">
+        {% if app.user == quack.author %}
             <a href="{{ path('quack_edit', {'id': quack.id}) }}" class="col-1" style="margin-bottom: 16px">
                 <button class="btn btn-outline-warning">Edit</button>
             </a>
             {{ include('quack/_delete_form.html.twig') }}
-        </div>
-    {% endif %}
-
+        {% endif %}
+    </div>
+    <hr>
     {% if app.user %}
         {{ include ('quack/_comment_form.html.twig') }}
     {% endif %}
 
     {% for comment in quack.comments | sort((b,a)=>a.createdAt <=> b.createdAt) %}
         <p class="comment-created-at">{{ comment.createdAt|ago }} :</p>
-        <div class="row">
+        <div class="row mt16">
             <a href="{{ path('duck_show', {'id': comment.author.id }) }}">
                 <img src="/uploads/images/ducks/{{ comment.author.fileName }}"
                      class="rounded-circle mr-3 col-auto comment-modal-avatar"
@@ -51,6 +48,12 @@
             </a>
             <p class="col-auto comment-modal-duckname">{{ comment.author.duckName }}</p>
             <p class="comment-modal-content col-auto">{{ comment.content }}</p>
+            {% if (app.user == comment.author) or (app.user == quack.author) %}
+                <a href="{{ path('comment_edit', {'id': comment.id}) }}" style="margin-bottom: 16px; padding-right: 10px"><i
+                            class="fas fa-feather yellow-feather"></i>
+                </a>
+                {{ include ('comment/_delete_form.html.twig') }}
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock %}

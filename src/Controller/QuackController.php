@@ -105,7 +105,6 @@ class QuackController extends AbstractController
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $form['image']->getData();
 
-
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadQuackImage($uploadedFile);
                 $quack->setFileName($newFilename);
@@ -117,7 +116,7 @@ class QuackController extends AbstractController
 
         return $this->render('quack/edit.html.twig', [
             'quack' => $quack,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
