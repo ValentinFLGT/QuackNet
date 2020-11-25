@@ -49,9 +49,27 @@ class QuackController extends AbstractController
             return $this->redirectToRoute('quack_index');
         }
 
+        $searchForm = $this->createFormBuilder()
+            ->add('q')
+            ->setMethod('GET')
+            ->getForm();
+
+        $searchForm->handleRequest($request);
+
+        $data = $quackRepository->findAllDesc();
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+
+            $author = $searchForm->get('q')->getData();
+
+            $data = $quackRepository->search($author);
+
+        }
+
         return $this->render('quack/index.html.twig', [
-            'quacks' => $quackRepository->findAllDesc(), 'quack' => $quack,
+            'quacks' => $data,
             'form' => $form->createView(),
+            'searchForm' => $searchForm->createView()
         ]);
     }
 
@@ -140,42 +158,5 @@ class QuackController extends AbstractController
         }
 
         return $this->redirectToRoute('duck_show', ['id' => $quack->getAuthor()->getId()]);
-    }
-
-    /**
-     * @Route("/search", name="search")
-     * @param Request $request
-     * @param QuackRepository $quackRepository
-     * @return Response
-     */
-    public function recherche(Request $request, QuackRepository $quackRepository)
-    {
-
-        $searchForm = $this->createFormBuilder()
-            ->add('q')
-            ->setMethod('GET')
-            ->getForm();
-
-        $searchForm->handleRequest($request);
-
-        $data = [];
-
-        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-
-            $author = $searchForm->get('q')->getData();
-
-            $data = $quackRepository->search($author);
-
-            if ($data == null) {
-                $this->addFlash('error', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
-
-            }
-
-        }
-
-        return $this->render('quack/search.html.twig', [
-            'foundQuacks' => $data,
-            'searchForm' => $searchForm->createView()
-        ]);
     }
 }

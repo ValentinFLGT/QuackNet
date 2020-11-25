@@ -14,15 +14,25 @@ body {
 }
 
 .quack-color {
-    color: #2e77f2;
+    color: #5cb85c;
 }
 
 .btn-quack-color {
-    background-color: #2e77f2;
+    background-color: #5cb85c;
 }
 
 a:hover {
-    color: #4A8CFF;
+    color: #5cb85c;
+}
+
+.btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+}
+input:focus,input:active {
+    outline: none !important;
+    border-color: #5cb85c !important;
+    box-shadow: none !important;
 }
 
 .custom-container {
@@ -204,6 +214,13 @@ input {
     background-color: white;
     margin-bottom: 32px;
     margin-top: 32px;
+}
+.fa-trash-alt {
+    margin-top: 10px;
+    color: red;
+}
+.delete-comment-button {
+    border: none;
 }
 
 .fa-trash-alt {

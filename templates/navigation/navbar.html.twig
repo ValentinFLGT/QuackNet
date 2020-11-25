@@ -37,10 +37,15 @@
                     </li>
                 {% endif %}
             </ul>
-            <form class="form-inline my-2 my-lg-0 custom-navbar">
-                <input class="form-control mr-sm-2 quack-color" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn my-2 my-sm-0 quack-color" type="submit">Search</button>
-            </form>
+            {% if app.request.get('_route') == 'quack_index' %}
+                <form class="form-inline my-2 my-lg-0 custom-navbar">
+                    {% form_theme searchForm 'bootstrap_4_layout.html.twig' %}
+                    {{ form_start(searchForm) }}
+                    {{ form_row(searchForm.q, {'label': " ", 'attr': {'placeholder': 'Ducks or Tags'}}) }}
+                    <button class="btn my-2 my-sm-0 quack-color">Search</button>
+                    {{ form_end(searchForm) }}
+                </form>
+            {% endif %}
         </div>
     </nav>
 {% endblock %}
