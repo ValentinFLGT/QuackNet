@@ -29,7 +29,7 @@ class Quack
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Duck", inversedBy="quacks", fetch="EAGER")
      */
-    public $author;
+    private $author;
 
     /**
      * @ORM\Column(type="text")

@@ -12,20 +12,16 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $uploadsPath: '%kernel.project_dir%/public/uploads'
-    duck_edit_voter:
-        class: App\Security\DuckEditVoter
+    duck_voter:
+        class: App\Security\DuckVoter
         tags:
             - { name: security.voter }
-    quack_edit_voter:
-        class: App\Security\QuackEditVoter
+    quack_voter:
+        class: App\Security\QuackVoter
         tags:
             - { name: security.voter }
-    quack_delete_voter:
-        class: App\Security\QuackDeleteVoter
-        tags:
-            - { name: security.voter }
-    comment_delete_voter:
-        class: App\Security\CommentDeleteVoter
+    comment_voter:
+        class: App\Security\CommentVoter
         tags:
             - { name: security.voter }
 

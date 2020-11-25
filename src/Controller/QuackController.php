@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Quack;
 use App\Form\CommentType;
 use App\Form\QuackType;
+use App\Form\SearchType;
 use App\Repository\CommentRepository;
 use App\Repository\QuackRepository;
 use App\Service\UploaderHelper;
@@ -97,8 +98,8 @@ class QuackController extends AbstractController
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
-        if (!$this->isGranted('EDIT_QUACK', $quack)) {
-            throw $this->createAccessDeniedException('Hands off other quack!');
+        if (!$this->isGranted("ROLE_MODERATOR")) {
+            $this->denyAccessUnlessGranted("DELETE_QUACK", $quack);
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -128,8 +129,8 @@ class QuackController extends AbstractController
      */
     public function delete(Request $request, Quack $quack): Response
     {
-        if (!$this->isGranted('DELETE_QUACK', $quack)) {
-            throw $this->createAccessDeniedException('Are you sure bout\' quack ?');
+        if (!$this->isGranted("ROLE_MODERATOR")) {
+            $this->denyAccessUnlessGranted("DELETE_QUACK", $quack);
         }
 
         if ($this->isCsrfTokenValid('delete' . $quack->getId(), $request->request->get('_token'))) {
@@ -139,5 +140,42 @@ class QuackController extends AbstractController
         }
 
         return $this->redirectToRoute('duck_show', ['id' => $quack->getAuthor()->getId()]);
+    }
+
+    /**
+     * @Route("/search", name="search")
+     * @param Request $request
+     * @param QuackRepository $quackRepository
+     * @return Response
+     */
+    public function recherche(Request $request, QuackRepository $quackRepository)
+    {
+
+        $searchForm = $this->createFormBuilder()
+            ->add('q')
+            ->setMethod('GET')
+            ->getForm();
+
+        $searchForm->handleRequest($request);
+
+        $data = [];
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+
+            $author = $searchForm->get('q')->getData();
+
+            $data = $quackRepository->search($author);
+
+            if ($data == null) {
+                $this->addFlash('error', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
+
+            }
+
+        }
+
+        return $this->render('quack/search.html.twig', [
+            'foundQuacks' => $data,
+            'searchForm' => $searchForm->createView()
+        ]);
     }
 }
