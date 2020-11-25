@@ -1,20 +1,22 @@
 <?php
 
+
 namespace App\Security;
 
-use App\Entity\Quack;
+
+use App\Entity\Duck;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class QuackDeleteVoter extends Voter
+class DuckVoter extends Voter
 {
     protected function supports(string $attribute, $subject)
     {
-        if ($attribute != 'DELETE_QUACK') {
+        if ($attribute != 'DELETE_DUCK') {
             return false;
         }
 
-        if (!$subject instanceof Quack) {
+        if (!$subject instanceof Duck) {
             return false;
         }
         return true;
@@ -22,9 +24,6 @@ class QuackDeleteVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        if ($token->getUser() != $subject->author) {
-            return false;
-        }
-        return true;
+        return $token->getUser() == $subject;
     }
 }
