@@ -26,9 +26,11 @@ class QuackRepository extends ServiceEntityRepository
 
     public function search($duckName) {
         return $this->createQueryBuilder('q')
-            ->join('q.author', 'a')
-            ->andWhere('a.duckName LIKE :username')
-            ->setParameter('username', '%'.$duckName.'%')
+            ->leftJoin('q.author', 'author')
+            ->leftJoin('q.tags', 'tag')
+            ->andWhere('author.duckName LIKE :searchedName OR tag.name LIKE :searchedName')
+            ->setParameter('searchedName', '%'.$duckName.'%')
+            ->orderBy('q.created_at', 'DESC')
             ->getQuery()
             ->execute();
     }
