@@ -88,6 +88,7 @@ class DuckController extends AbstractController
      * @param Request $request
      * @param Duck $duck
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UploaderHelper $uploaderHelper
      * @return Response
      */
     public function edit(Request $request, Duck $duck, UserPasswordEncoderInterface $passwordEncoder, UploaderHelper $uploaderHelper): Response
@@ -95,9 +96,7 @@ class DuckController extends AbstractController
         $form = $this->createForm(DuckType::class, $duck);
         $form->handleRequest($request);
 
-        if (!$this->isGranted('EDIT_DUCK', $duck)) {
-            throw $this->createAccessDeniedException('Who the duck do you think you are?!');
-        }
+        $this->denyAccessUnlessGranted("DELETE_DUCK", $duck);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -140,9 +139,7 @@ class DuckController extends AbstractController
      */
     public function delete(Request $request, Duck $duck): Response
     {
-        if (!$this->isGranted('DELETE_DUCK', $duck)) {
-            throw $this->createAccessDeniedException('Oh my god! You\'re about to kill your friend!');
-        }
+        $this->denyAccessUnlessGranted("DELETE_DUCK", $this->getUser());
 
         if ($this->isCsrfTokenValid('delete' . $duck->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

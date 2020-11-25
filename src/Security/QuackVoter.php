@@ -2,29 +2,26 @@
 
 namespace App\Security;
 
-use App\Entity\Comment;
+use App\Entity\Quack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class CommentDeleteVoter extends Voter
+class QuackVoter extends Voter
 {
     protected function supports(string $attribute, $subject)
     {
-        if ($attribute != 'DELETE_COMMENT') {
+        if ($attribute != 'DELETE_QUACK') {
             return false;
         }
 
-        if (!$subject instanceof Comment) {
-            return true;
+        if (!$subject instanceof Quack) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        if ($token->getUser() != $subject) {
-            return false;
-        }
-        return true;
+        return $token->getUser() == $subject->getAuthor();
     }
 }

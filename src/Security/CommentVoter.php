@@ -2,19 +2,19 @@
 
 namespace App\Security;
 
-use App\Entity\Duck;
+use App\Entity\Comment;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class DuckEditVoter extends Voter
+class CommentVoter extends Voter
 {
     protected function supports(string $attribute, $subject)
     {
-        if ($attribute != 'EDIT_DUCK') {
+        if ($attribute != 'DELETE_COMMENT') {
             return false;
         }
 
-        if (!$subject instanceof Duck) {
+        if (!$subject instanceof Comment) {
             return false;
         }
         return true;
@@ -22,9 +22,6 @@ class DuckEditVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        if ($token->getUser() != $subject) {
-            return false;
-        }
-        return true;
+        return $token->getUser() == $subject->getAuthor();
     }
 }
