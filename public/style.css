@@ -245,6 +245,10 @@ input {
     margin-bottom: 16px;
 }
 
+.dropdown-menu {
+    left: -80px;
+}
+
 /*ERROR 404*/
 
 @-webkit-keyframes dogMove {

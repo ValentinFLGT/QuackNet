@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Quack|null findOneBy(array $criteria, array $orderBy = null)
  * @method Quack[]    findAll()
  * @method Quack[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Quack      findTag($tags)
  */
 class QuackRepository extends ServiceEntityRepository
 {
@@ -24,12 +25,24 @@ class QuackRepository extends ServiceEntityRepository
         return $this->findBy(array(), array('created_at' => 'DESC'));
     }
 
-    public function search($duckName) {
+    public function search($duckName)
+    {
         return $this->createQueryBuilder('q')
             ->leftJoin('q.author', 'author')
             ->leftJoin('q.tags', 'tag')
             ->andWhere('author.duckName LIKE :searchedName OR tag.name LIKE :searchedName')
-            ->setParameter('searchedName', '%'.$duckName.'%')
+            ->setParameter('searchedName', '%' . $duckName . '%')
+            ->orderBy('q.created_at', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function searchByTag($tag)
+    {
+        return $this->createQueryBuilder('q')
+            ->leftJoin('q.tags', 'tag')
+            ->andWhere('tag.name LIKE :searchedName')
+            ->setParameter('searchedName', '%' . $tag . '%')
             ->orderBy('q.created_at', 'DESC')
             ->getQuery()
             ->execute();
