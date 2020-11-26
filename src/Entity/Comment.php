@@ -41,7 +41,6 @@ class Comment
     /**
      * @ORM\ManyToOne(targetEntity=Duck::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups ("quack")
      */
     private $author;
 

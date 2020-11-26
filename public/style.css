@@ -244,6 +244,14 @@ input {
     margin-top: 16px;
 }
 
+.mb16 {
+    margin-bottom: 16px;
+}
+
+.dropdown-menu {
+    left: -80px;
+}
+
 /*ERROR 404*/
 
 @-webkit-keyframes dogMove {

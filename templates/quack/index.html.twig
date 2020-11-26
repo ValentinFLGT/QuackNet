@@ -18,8 +18,13 @@
             <div class="card-body d-flex flex-row">
                 <!-- Avatar -->
                 <a href="{{ path('duck_show', {'id': quack.author.id }) }}">
-                    <img src="/uploads/images/ducks/{{ quack.author.fileName }}" class="rounded-circle mr-3"
-                         height="60px" width="60px" alt="avatar">
+                    {% if quack.author.fileName %}
+                        <img src="/uploads/images/ducks/{{ quack.author.fileName }}" class="rounded-circle mr-3"
+                             height="100px" width="100px" alt="avatar">
+                    {% else %}
+                        <img src="{{ asset('uploads/defaultDuck.png') }}" class="rounded-circle mr-3"
+                             height="100px" width="100px" alt="avatar">
+                    {% endif %}
                 </a>
                 <!-- Content -->
                 <div class="card-top-text">

@@ -22,8 +22,12 @@
     <div>
 
         {% if app.user == duck %}
-            <a href="{{ path('duck_edit', {'id': duck.id}) }}">edit</a>
+        <div class="row mt16">
+            <a href="{{ path('duck_edit', {'id': duck.id}) }}" class="col-1">
+                <button class="btn btn-outline-warning">Edit</button>
+            </a>
             {{ include('duck/_delete_form.html.twig') }}
+        </div>
             {{ include('quack/_form.html.twig') }}
         {% endif %}
     </div>
