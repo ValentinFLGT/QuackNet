@@ -17,6 +17,7 @@
             <!-- Card head -->
             <div class="card-body d-flex flex-row">
                 <!-- Avatar -->
+
                 <a href="{{ path('duck_show', {'id': quack.author.id }) }}">
                     {% if quack.author.fileName %}
                         <img src="/uploads/images/ducks/{{ quack.author.fileName }}" class="rounded-circle mr-3"
