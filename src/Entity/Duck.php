@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=DuckRepository::class)
@@ -20,6 +21,7 @@ class Duck implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ("quack")
      */
     private $id;
 
@@ -27,26 +29,31 @@ class Duck implements UserInterface
      * @var string | null
      *
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups ("quack")
      */
     private $fileName;
 
     /**
      * @ORM\Column(type="string", length=180)
+     * @Groups ("quack")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=180)
+     * @Groups ("quack")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups ("quack")
      */
     private $duckName;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups ("quack")
      */
     private $email;
 
