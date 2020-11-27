@@ -23,11 +23,14 @@ security:
                     - App\Security\DuckAuthenticator
             logout:
                 path: app_logout
+            http_basic:
+                realm: prout
 
     access_control:
         - { path: '^/admin', roles: ROLE_ADMIN }
         - { path: '^/register', roles: [ IS_ANONYMOUS, ROLE_MODERATOR ] }
         - { path: '^/quack/', roles: [ IS_AUTHENTICATED_FULLY, ROLE_MODERATOR ] }
         - { path: '^/duck', roles: [ IS_AUTHENTICATED_FULLY, ROLE_MODERATOR ] }
+        - { path: '^/api', roles: ROLE_USER }
 
 
