@@ -75,7 +75,6 @@ class Duck implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author")
-     * @Groups ("quack")
      */
     private $comments;
 

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Duck;
 use App\Entity\Quack;
+use App\Repository\DuckRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,10 +45,12 @@ class ApiController extends AbstractController
      */
     public function deleteProduct(EntityManagerInterface $entityManager, Quack $quack): Response
     {
-            $entityManager->remove($quack);
-            $entityManager->flush();
-
-            return $this->json(['message' => 'Your quack has been deleted.'], 200, [], ['groups' => 'quack']);
+            if(($this->getUser() == $quack->getAuthor()) or $this->getUser()->getRoles()[0] == 'ROLE_MODERATOR') {
+                $entityManager->remove($quack);
+                $entityManager->flush();
+                return $this->json(['message' => 'Your quack has been deleted.'], 200, [], ['groups' => 'quack']);
+            }
+            return $this->json(['message' => 'This is not your quack, you can\'t delete it.'], 200);
     }
 
     /**
@@ -57,17 +60,21 @@ class ApiController extends AbstractController
     {
         $receivedJson = json_decode($request->getContent());
 
-        $duck->setLastName($receivedJson->lastName);
-        $duck->setFirstName($receivedJson->firstName);
+        // dd($this->getUser());
+        if ($this->getUser() == $duck) {
+            $duck->setLastName($receivedJson->lastName);
+            $duck->setFirstName($receivedJson->firstName);
 
-        $entityManager->persist($duck);
-        $entityManager->flush();
+            $entityManager->persist($duck);
+            $entityManager->flush();
 
-        return $this->json($duck, 200, [], ['groups' => 'quack']);
+            return $this->json($duck, 200, [], ['groups' => 'quack']);
+        }
+        return $this->json(['message' => 'You can\'t update this Duck, You are not '. $duck->getDuckName()], 200);
     }
 
     /**
-     * @Route("/api/duck/", name="create", methods={"POST"})
+     * @Route("/api/duck", name="create", methods={"POST"})
      */
     public function createDuck(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
     {
@@ -81,5 +88,13 @@ class ApiController extends AbstractController
         $entityManager->flush();
 
         return $this->json($duck, 200, [], ['groups' => 'quack']);
+    }
+
+    /**
+     * @Route("/api/whoami", name="whoami", methods={"GET"})
+     */
+    public function whoami(): Response
+    {
+        return $this->json($this->getUser(), 200, [], ['groups' => 'quack']);
     }
 }

@@ -31,6 +31,7 @@ security:
         - { path: '^/register', roles: [ IS_ANONYMOUS, ROLE_MODERATOR ] }
         - { path: '^/quack/', roles: [ IS_AUTHENTICATED_FULLY, ROLE_MODERATOR ] }
         - { path: '^/duck', roles: [ IS_AUTHENTICATED_FULLY, ROLE_MODERATOR ] }
+        - { path: '/api/duck$', roles: IS_ANONYMOUS }
         - { path: '^/api', roles: ROLE_USER }
 
 
