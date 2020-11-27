@@ -21,7 +21,7 @@ class DuckType extends AbstractType
             ->add('email')
             ->add('image', FileType::class, [
                 'mapped' => false,
-                'required' => false
+                'required' => false,
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

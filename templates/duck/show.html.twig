@@ -67,7 +67,7 @@
                     <!-- Buttons -->
                     <div class="container">
                         <div class="row">
-                            <a href="#" class="btn btn-outline-success float-left col-2"
+                            <a href="{{ path('quack_show', { 'id': quack.id }) }}" class="btn btn-outline-success float-left col-2"
                                style="height: 39px">Quack Back</a>
                             {% if app.user %}
                                 {% if quack.author == app.user.quacks.owner %}

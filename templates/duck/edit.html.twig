@@ -3,7 +3,7 @@
 {% block title %}Edit Duck{% endblock %}
 
 {% block body %}
-    <h1>Modifier mon Profil</h1>
+    <h1>Edit Duck Profile</h1>
     {% if duck.fileName %}
         <img src="/uploads/images/ducks/{{ duck.fileName }}" class="rounded-circle mr-3"
              height="100px" width="100px" alt="avatar">
@@ -13,5 +13,11 @@
     {% endif %}
 
     {{ include('duck/_form.html.twig', {'button_label': 'Update'}) }}
-    {{ include('duck/_delete_form.html.twig') }}
+
+    <div class="row">
+        <a href="{{ path('duck_show', {'id': duck.id }) }}" class="col-2">
+            <button class="btn btn-outline-warning">Back to Profile</button>
+        </a>
+        {{ include('duck/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
