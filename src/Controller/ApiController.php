@@ -13,7 +13,6 @@ use App\Repository\QuackRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-
 class ApiController extends AbstractController
 {
     /**
@@ -50,16 +49,6 @@ class ApiController extends AbstractController
 
             return $this->json(['message' => 'Your quack has been deleted.'], 200, [], ['groups' => 'quack']);
     }
-
-//    /**
-//     * @Route("/api/quack/test/{tag}", name="test", methods={"GET"})
-//     */
-//    public function test(TagRepository $tagRepository, Tag $tag)
-//    {
-//        $tag = $tagRepository->find($tag->getId());
-//        $quacks = $tag->getQuacks();
-//        return $this->json($quacks, 200, [], ['groups' => 'quack']);
-//    }
 
     /**
      * @Route("/api/duck/{id}", name="update", methods={"PUT"})
