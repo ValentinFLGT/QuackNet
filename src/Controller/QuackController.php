@@ -26,7 +26,7 @@ class QuackController extends AbstractController
      * @param UploaderHelper $uploaderHelper
      * @return Response
      */
-    public function new(UserInterface $user, QuackRepository $quackRepository, Request $request, UploaderHelper $uploaderHelper): Response
+    public function new(QuackRepository $quackRepository, Request $request, UploaderHelper $uploaderHelper): Response
     {
         $quack = new Quack();
         $quack->setCreatedAt(new \DateTime('now'));
